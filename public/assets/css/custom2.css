@@ -1,0 +1,222 @@
+.orgColor {
+    color: #f8d194 !important;
+}
+
+.whatsappDiv {
+    position: fixed;
+    bottom: 22%;
+    right: 30px;
+    z-index: 1;
+}
+
+.whatsappDiv img {
+    width: 68px;
+    height: 68px;
+}
+
+.cry4cash {
+    padding-bottom: 120px !important;
+}
+
+@media screen and (max-width: 641px) {
+    .cry4cash {
+        padding-bottom: 70px !important;
+    }
+}
+
+.cry4cashwrapper {
+    background: #161719;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    border-radius: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.cardTitle {
+    font-size: 22px;
+    color: #fff;
+}
+
+.formdark input,
+.formdark select {
+    height: 55px !important;
+}
+
+.formdark input,
+.formdark select {
+    background: #222324 !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+.formdark input:disabled {
+    background: #222324 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.formdark input:read-only {
+    color: #a3a3a3 !important;
+    cursor: auto;
+}
+
+.selectInput {
+    overflow: hidden;
+    position: relative;
+}
+
+.selectInput:after {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #fff;
+    position: absolute;
+    top: 45%;
+    right: 15px;
+    content: "";
+    z-index: 98;
+}
+
+.summaryDiv {
+    margin-top: 0px;
+    margin-bottom: 40px !important;
+}
+
+.summaryDivItem {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    color: #fef4eb66 !important;
+    margin-top: 20px;
+}
+
+.summaryDivItemLeft h6 {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.summaryDivItemLeft p {
+    margin-bottom: 0px !important;
+}
+
+.summaryDivItem p {
+    color: #fef4eb66 !important;
+    font-size: 14px;
+}
+
+.summaryDivItem h6 {
+    font-size: 17px;
+}
+
+.summaryCopy {
+    display: flex;
+    column-gap: 10px;
+    color: #fef4eb66 !important;
+    cursor: pointer;
+}
+
+.summaryCopy i {
+    color: #f8d194 !important;
+}
+
+.summaryDivTotal {
+    margin-bottom: 30px !important;
+    padding: 25px 20px;
+    background: #222324;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    border-radius: 7px;
+}
+
+.summaryDivTotal.summaryDivTotalCenter {
+    display: block !important;
+    text-align: center;
+}
+
+.summaryDivTotal.summaryDivTotalCenter h6 {
+    text-align: center;
+}
+
+.summaryDivTotal h6 {
+    font-size: 14px;
+    text-align: right;
+}
+
+.summaryDivTotal h5 {
+    font-size: 16px;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.siteCheckBox .form-check {
+    display: flex;
+    align-items: center;
+}
+
+.siteCheckBox input {
+    margin-right: 10px !important;
+}
+
+.siteCheckBox label {
+    margin-bottom: 0px !important;
+}
+
+.siteCheckBox input[type="checkbox"] {
+    width: 22px !important;
+    height: 22px !important;
+    cursor: pointer;
+    background: #ffffff;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.siteCheckbox input[type="checkbox"]:focus,
+.site_form_d input[type="checkbox"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.siteCheckbox input[type="checkbox"]:checked,
+.site_form_d input[type="checkbox"]:checked {
+    accent-color: green !important;
+    border: 2px solid transparent !important;
+}
+
+@media screen and (max-width: 606px) {
+    .cry4cashwrapper {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .cardTitle {
+        font-size: 18px;
+    }
+
+    .summaryDivTotal {
+        display: block !important;
+    }
+    .summaryDivTotal h4 {
+        margin-bottom: 15px !important;
+    }
+    .summaryDivTotal div {
+        text-align: left !important;
+    }
+
+    .summaryDivTotal h6 {
+        text-align: left;
+    }
+
+    .summaryDivTotal h5 {
+        text-align: left;
+        margin-top: 6px !important;
+    }
+}

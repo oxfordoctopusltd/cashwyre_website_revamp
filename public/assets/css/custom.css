@@ -1,0 +1,117 @@
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.mb-40 {
+  margin-bottom: 40px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+
+.pb-30 {
+  padding-bottom: 30px;
+}
+
+.pb-40 {
+  padding-bottom: 40px;
+}
+
+.pb-50 {
+  padding-bottom: 50px;
+}
+
+.pt-30 {
+  padding-top: 30px;
+}
+
+.pt-40 {
+  padding-top: 40px;
+}
+
+.pt-50 {
+  padding-top: 50px;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn--medium--round--border,
+.bg_success {
+  position: relative;
+  text-align: center;
+  font-size: 1rem;
+  font-family: "Cabin", sans-serif;
+  display: inline-block;
+  overflow: hidden;
+  outline: none;
+  font-weight: 600;
+  text-decoration: none !important;
+  height: 40px;
+  line-height: 36px !important;
+  padding: 0 25px;
+  background-color: transparent;
+  border: 2px solid #222220;
+  border-radius: 10px;
+  color: #222220;
+}
+
+.bg_success {
+  background-color: var(--orangeDark) !important;
+  border-color: var(--orangeDark) !important;
+  color: #fff !important;
+}
+
+#quotes .owl-theme .owl-dots .owl-dot span,
+a,
+button {
+  -o-transition: 0.35s;
+  -moz-transition: 0.35s;
+  -webkit-transition: 0.35s;
+  transition: 0.35s;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.contact-form .label {
+  color: #fff;
+  text-align: left;
+}
+
+.info-footer p a {
+  color: #222;
+}
+
+.offset-md-2 .row {
+  align-items: center;
+}
+
+.offset-md-2 .row .social-element--small ul li a i {
+  font-size: 1.25rem;
+}

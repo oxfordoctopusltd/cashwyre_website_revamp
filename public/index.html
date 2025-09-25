@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <meta
+      name="description"
+      content="Send & Receive money FREELY across borders | Cashwyre"
+    />
+    <meta name="author" content="Cashwyre" />
+    <meta
+      name="keywords"
+      content="Cashwyre, Paylink, Bitcoin, BTC, Fintech, USDT, USDC, Border-less, Cross-border Payment"
+    />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="<%= BASE_URL %>" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="<%= BASE_URL %>img/icons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="<%= BASE_URL %>img/icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="<%= BASE_URL %>img/icons/favicon-16x16.png"
+    />
+    <!-- <link rel="manifest" href="./img/icons/site.webmanifest"> -->
+    <link
+      rel="mask-icon"
+      href="<%= BASE_URL %>img/icons/safari-pinned-tab.svg"
+      color="#c57705"
+    />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <meta
+      name="msapplication-TileImage"
+      content="<%= BASE_URL %>img/icons/mstile-144x144.png"
+    />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Cashwyre" />
+    <meta property="og:url" content="<%= BASE_URL %>" />
+    <meta
+      property="og:title"
+      content="Send & Receive money FREELY across borders | Cashwyre"
+    />
+    <meta
+      property="og:description"
+      content="Send & Receive money FREELY across borders | Cashwyre"
+    />
+    <meta property="og:image" content="<%= BASE_URL %>favicon.ico" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="Cashwyre" />
+    <meta name="twitter:creator" content="Cashwyre" />
+    <meta
+      name="twitter:url"
+      content="https://twitter.com/Cashwyre_HQ?t=WqQPZZ4u2S9bFtrXjiv9FQ&s=09"
+    />
+    <meta name="twitter:title" content="Cashwyre" />
+    <meta
+      name="twitter:description"
+      content="Send & Receive money FREELY across borders | Cashwyre"
+    />
+    <meta name="twitter:image" content="<%= BASE_URL %>favicon.ico" />
+
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          "gtm.start": new Date().getTime(),
+          event: "gtm.js",
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-MT26CCC");
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="<%= BASE_URL %>assets/css/style.css" />
+    <link rel="stylesheet" href="<%= BASE_URL %>assets/css/custom.css" />
+  </head>
+
+  <body>
+    <noscript>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to
+        continue.</strong
+      >
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+
+    <script src="<%= BASE_URL %>assets/js/master-dist.js"></script>
+    <script src="<%= BASE_URL %>assets/js/custom.js"></script>
+    
+    <!--script to uninstalls all service-workers for a week/month-->
+    <script type="text/javascript">
+      if(window.navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister();
+          }
+        });
+      }
+    </script>
+    <!--  END Scripts  -->
+
+    <!-- webln -->
+    <!-- <script
+      src="https://unpkg.com/webln@0.3.2/dist/webln.min.js"
+      integrity="sha384-MpjpvOQqXz9nCoLUS/sR0bhLwGYuNPMOBN50jsqhnqAzDq0GiOI0u6oC5fHitzI2"
+      crossorigin="anonymous"
+    ></script> -->
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MT26CCC"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+      if (window && typeof window !== undefined) {
+        // .pathname
+        const isOfframpPage = window.location.href.toLowerCase().includes("offramp");
+        const whatsappEl = document.querySelector(".whatsappDiv");
+        // console.log("isInPage: ", whatsappEl, isOfframpPage);
+
+        if (whatsappEl && isOfframpPage) {
+          whatsappEl.remove();
+        }
+        
+        if (!isOfframpPage) {
+          var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+          (function () {
+            var s1 = document.createElement("script"),
+              s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = "https://embed.tawk.to/6370f350daff0e1306d72b04/1ghojctb1";
+            s1.charset = "UTF-8";
+            s1.setAttribute("crossorigin", "*");
+            s0.parentNode.insertBefore(s1, s0);
+          })();
+        }
+      }
+    </script>
+    <!--End of Tawk.to Script-->
+    
+    <!-- Plugin -->
+    <script src="https://paybusiness.cashwyre.com/widget.js"></script>
+    <script>
+      // const userEmail = "goldokiemute1@gmail.com";
+      YourPayWidget.init({
+        type: "widget",
+        merchantId: "7cf40eaa-dc2f-49b0-9c8c-c574a78ad0f4",
+        position: "bottom-left",
+        // user: userEmail,
+        // amount: 1000,
+        // currency: "ngn",
+        // sessionID: "iamanewtestingid2500",
+      });
+    </script>
+
+    <script>
+      window.onload = function() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        if (window.location.pathname.toLowerCase() === "/download") {
+          if (/android/i.test(userAgent)) {
+            // Redirect to Google Play
+            window.location.href = "https://play.google.com/store/apps/details?id=com.vickzil.cashwyre";
+          } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            // Redirect to App Store
+            window.location.href = "https://apps.apple.com/tr/app/cashwyre/id6450153762?l=tr";
+          } else {
+            return window.location.href;
+          }
+        }
+      };
+    </script>
+  </body>
+</html>

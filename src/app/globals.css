@@ -14,8 +14,14 @@
 }
 
 @layer base {
+  html {
+    @apply bg-[#0F0F0F];
+  }
+  
   body {
     @apply bg-[#0F0F0F] text-white overflow-x-hidden;
+    /* Ensure background is always visible during hydration */
+    min-height: 100vh;
   }
 }
 
@@ -39,6 +45,15 @@
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
   }
 
   .floating-nav {

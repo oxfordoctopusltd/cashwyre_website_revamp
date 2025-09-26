@@ -40,10 +40,10 @@ export default function Countries() {
           <motion.div
             className="flex items-center space-x-8 absolute top-0 left-0"
             animate={{
-              x: ["0%", "-100%"]
+              x: ["0%", "-50%"]
             }}
             transition={{
-              duration: 40,
+              duration: 30,
               repeat: Infinity,
               ease: "linear"
             }}
@@ -84,10 +84,6 @@ export default function Countries() {
               </motion.div>
             ))}
           </motion.div>
-          
-          {/* Gradient overlays for smooth edges */}
-          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-black to-transparent z-10" />
-          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-black to-transparent z-10" />
         </div>
 
         {/* Call to Action */}

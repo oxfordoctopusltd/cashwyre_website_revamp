@@ -2,7 +2,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Providers } from "./providers"
-import FloatingNav from "@/components/navigation/FloatingNav"
+import ClientFloatingNav from "@/components/navigation/ClientFloatingNav"
+import Footer from "@/components/sections/Footer"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,10 +22,26 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} dark`}>
+      <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            body { background-color: #0F0F0F !important; color: white !important; }
+            .hero-loading { 
+              min-height: 70vh; 
+              background: linear-gradient(135deg, #0F0F0F 0%, #1A1A1A 50%, #2D1E0F 100%);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          `
+        }} />
+      </head>
+      <body className={`${inter.className} dark bg-[#0F0F0F] text-white min-h-screen`}>
         <Providers>
-          <FloatingNav />
-          <main className="min-h-screen">{children}</main>
+          <ClientFloatingNav />
+          <main className="min-h-screen bg-[#0F0F0F]">{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>

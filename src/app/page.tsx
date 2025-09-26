@@ -6,11 +6,10 @@ import Features from "@/components/sections/Features"
 import Countries from "@/components/sections/Countries"
 import Calculator from "@/components/sections/Calculator"
 import Steps from "@/components/sections/Steps"
-import Footer from "@/components/sections/Footer"
 
 export default function Home() {
   return (
-    <div className="space-y-20">
+    <div className="space-y-8">
       <Hero />
       <IntroSection />
       <Features />
@@ -18,7 +17,6 @@ export default function Home() {
       <Calculator />
       <Steps />
       <DownloadSection />
-      <Footer />
     </div>
   )
 }

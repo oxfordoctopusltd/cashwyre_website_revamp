@@ -1,5 +1,6 @@
 "use client"
 import { motion } from "framer-motion"
+import Link from "next/link"
 
 const countries = [
   { name: "Nigeria", flag: "🇳🇬", code: "NG"},
@@ -93,9 +94,12 @@ export default function Countries() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-center"
         >
-          <button className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] text-white px-8 py-4 rounded-xl font-semibold hover:shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 hover:scale-105 text-lg">
-            Start Sending Money
-          </button>
+          <Link 
+            href="/get-started"
+            className="inline-block bg-gradient-to-r from-[#FF6B35] to-[#FFA726] text-white px-8 py-4 rounded-xl font-semibold hover:shadow-2xl hover:shadow-orange-500/25 transition-all duration-300 hover:scale-105 text-lg"
+          >
+            Create a free account
+          </Link>
         </motion.div>
       </div>
     </section>

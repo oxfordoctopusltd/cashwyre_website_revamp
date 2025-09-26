@@ -1,6 +1,7 @@
 "use client"
 import { motion } from "framer-motion"
 import { UserCheck, Wallet, Rocket, ShieldCheck } from "lucide-react"
+import Link from "next/link"
 
 const steps = [
   {
@@ -79,9 +80,12 @@ export default function Steps() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center mt-12"
         >
-          <button className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300 hover:scale-105">
+          <Link 
+            href="/get-started"
+            className="inline-block bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300 hover:scale-105"
+          >
             Create a free account
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>

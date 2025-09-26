@@ -41,6 +41,20 @@ export default function Footer() {
             <p className="text-gray-400 leading-relaxed">
               Making borderless transactions easy. Send and receive money freely across borders with Cashwyre's secure platform.
             </p>
+            <div className="flex space-x-4 mt-4">
+              <Link href="https://www.linkedin.com/company/cashwyrehq/posts/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors">
+                <i className="fab fa-linkedin text-lg"></i>
+              </Link>
+              <Link href="https://www.instagram.com/cashwyre_hq/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors">
+                <i className="fab fa-instagram text-lg"></i>
+              </Link>
+              <Link href="https://x.com/cashwyre_HQ" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors">
+                <i className="fab fa-x-twitter text-lg"></i>
+              </Link>
+              <Link href="https://t.me/cashwyre" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors">
+                <i className="fab fa-telegram text-lg"></i>
+              </Link>
+            </div>
           </div>
 
           {/* Services Section */}

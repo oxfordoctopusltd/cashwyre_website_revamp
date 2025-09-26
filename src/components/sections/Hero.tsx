@@ -11,6 +11,13 @@ const heroTags = [
   "Build with Cashwyre APIs",
 ]
 
+const heroSlogans = [
+  "No hidden charges and no subscription needed.",
+  "Launch your FinTech app in days with Cashwyre APIs",
+  "No hidden charges and no subscription needed.",
+  "Hassle-free transactions using the Bitcoin & Crypto network.",
+]
+
 export default function Hero() {
   const [currentTag, setCurrentTag] = useState(0)
 
@@ -64,6 +71,18 @@ export default function Hero() {
                   {heroTags[currentTag]}
                 </span>
               </motion.h1>
+            </AnimatePresence>
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={currentTag}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-xl text-gray-300 mt-4 max-w-2xl"
+              >
+                {heroSlogans[currentTag]}
+              </motion.p>
             </AnimatePresence>
           </div>
 

@@ -58,15 +58,15 @@ export default function DownloadSection() {
                   href="https://apps.apple.com/tr/app/cashwyre/id6450153762?l=tr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-between gap-4 glass-card border border-white/20 px-4 py-4 rounded-xl hover:bg-white/10 transition-all duration-300 group hover:scale-105"
+                  className="w-full flex items-center justify-between gap-4 glass-card border border-white/20 px-4 py-4 rounded-xl hover:bg-white/10 transition-all duration-300 group hover:scale-105 h-16"
                 >
                   <div className="flex items-center gap-3">
                     <Image
                       src="/img/logos/appStore.png"
                       alt="App Store"
-                      width={36}
-                      height={36}
-                      className="w-9 h-9 object-contain"
+                      width={40}
+                      height={40}
+                      className="w-16 h-16 object-contain"
                     />
                     <div className="text-left">
                       <div className="text-xs text-[#E0E0E0]">Download on</div>
@@ -80,15 +80,15 @@ export default function DownloadSection() {
                   href="https://play.google.com/store/apps/details?id=com.vickzil.cashwyre"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-between gap-4 glass-card border border-white/20 px-4 py-4 rounded-xl hover:bg-white/10 transition-all duration-300 group hover:scale-105"
+                  className="w-full flex items-center justify-between gap-4 glass-card border border-white/20 px-4 py-4 rounded-xl hover:bg-white/10 transition-all duration-300 group hover:scale-105 h-16"
                 >
                   <div className="flex items-center gap-3">
                     <Image
                       src="/img/logos/playstore.png"
                       alt="Google Play"
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 object-contain"
+                      width={36}
+                      height={36}
+                      className="w-9 h-9 object-contain"
                     />
                     <div className="text-left">
                       <div className="text-xs text-[#E0E0E0]">Get it on</div>

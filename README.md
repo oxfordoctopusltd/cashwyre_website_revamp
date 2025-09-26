@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cashwyre - Borderless Money Transfers & Crypto Solutions
 
-## Getting Started
+A comprehensive fintech platform built with Next.js, offering seamless money transfers across borders, crypto services, and powerful business APIs for developers and merchants.
 
-First, run the development server:
+## 🌟 Features
+
+- **Borderless Money Transfers**: Send and receive money across Africa and beyond with competitive rates
+- **Crypto Integration**: Buy, sell, and convert cryptocurrencies with ease
+- **Business APIs**: Powerful RESTful APIs for payouts, crypto wallets, and payment processing
+- **Modern UI/UX**: Built with Tailwind CSS and Framer Motion animations
+- **Responsive Design**: Optimized for all devices and screen sizes
+- **Real-time Updates**: Live exchange rates and transaction tracking
+- **Multi-currency Support**: Support for 50+ countries and major cryptocurrencies
+- **Secure Platform**: Bank-level security with advanced encryption
+
+## 🚀 Services Offered
+
+- **Retail Customers**: Personal finance tools including crypto savings, dollar cards, and instant transfers
+- **Merchants & Businesses**: Complete API suite for payment processing and business automation
+- **Crypto4Cash**: Convert cryptocurrencies to local currencies instantly
+- **API Documentation**: Comprehensive developer resources and integration guides
+- **Business Solutions**: Custom fintech solutions for enterprises
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **TypeScript**: Full type safety
+- **Icons**: Lucide React & FontAwesome
+- **Deployment**: Vercel-ready
+
+## 📁 Project Structure
+
+```
+cashwyre_website_revamp/
+├── app/                          # Next.js app directory
+│   ├── business/                 # Business API page
+│   ├── get-started/              # Onboarding page
+│   ├── services/                 # Service subpages
+│   │   ├── retail-customers/     # Retail services
+│   │   └── merchants-businesses/ # Business services
+│   ├── layout.tsx                # Root layout
+│   └── page.tsx                  # Homepage
+├── components/                   # Reusable React components
+│   ├── navigation/               # Navigation components
+│   ├── sections/                 # Page sections
+│   └── ui/                       # UI components
+├── public/                       # Static assets and images
+│   ├── img/                      # Images and logos
+│   └── assets/                   # CSS and fonts
+└── lib/                          # Utility functions
+```
+
+## 🚀 Getting Started
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open your browser to [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📜 Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-## Learn More
+## 🎯 Key Pages
 
-To learn more about Next.js, take a look at the following resources:
+- **Home**: Overview of Cashwyre services and platform features
+- **Business**: Business API documentation and integration guides
+- **Retail Customers**: Personal finance tools and services
+- **Merchants & Businesses**: Enterprise solutions and API access
+- **Get Started**: App download and account creation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Cashwyre** - Making borderless transactions easy with secure, fast, and reliable fintech solutions across Africa and beyond.

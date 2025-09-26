@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, ChevronDown } from "lucide-react"
+import { Menu, X, ChevronDown, Users, Building } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -18,10 +18,16 @@ const navItems: NavItem[] = [
   { name: "Support", href: "/support" },
 ]
 
+const submenuIcons: Record<string, any> = {
+  "Retail Customers": Users,
+  "Merchants & Businesses": Building,
+}
+
 export default function FloatingNav() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null)
+  const [submenuTimeout, setSubmenuTimeout] = useState<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -53,8 +59,17 @@ export default function FloatingNav() {
         <div className="hidden lg:flex items-center space-x-8">
           {navItems.map((item) => (
             <div key={item.name} className="relative"
-                 onMouseEnter={() => setActiveSubmenu(item.name)}
-                 onMouseLeave={() => setActiveSubmenu(null)}>
+                 onMouseEnter={() => {
+                   if (submenuTimeout) {
+                     clearTimeout(submenuTimeout)
+                     setSubmenuTimeout(null)
+                   }
+                   setActiveSubmenu(item.name)
+                 }}
+                 onMouseLeave={() => {
+                   const timeout = setTimeout(() => setActiveSubmenu(null), 150)
+                   setSubmenuTimeout(timeout)
+                 }}>
               {item.href ? (
                 <Link 
                   href={item.href}
@@ -77,15 +92,19 @@ export default function FloatingNav() {
                   animate={{ opacity: 1, y: 0 }}
                   className="absolute top-full left-0 mt-2 glass-card p-4 min-w-64 rounded-xl shadow-2xl border border-white/10"
                 >
-                  {item.submenu.map((subItem) => (
-                    <Link
-                      key={subItem}
-                      href={`/services/${subItem.toLowerCase().replace(/\s+/g, '-')}`}
-                      className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 mb-1 last:mb-0"
-                    >
-                      {subItem}
-                    </Link>
-                  ))}
+                  {item.submenu.map((subItem) => {
+                    const IconComponent = submenuIcons[subItem]
+                    return (
+                      <Link
+                        key={subItem}
+                        href={`/services/${subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-')}`}
+                        className="flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 mb-1 last:mb-0"
+                      >
+                        {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35]" />}
+                        <span>{subItem}</span>
+                      </Link>
+                    )
+                  })}
                 </motion.div>
               )}
             </div>
@@ -153,16 +172,20 @@ export default function FloatingNav() {
                     <div className="py-3">
                       <div className="text-gray-300 font-medium mb-2">{item.name}</div>
                       <div className="space-y-1 pl-4">
-                        {item.submenu?.map((subItem) => (
-                          <Link
-                            key={subItem}
-                            href={`/services/${subItem.toLowerCase().replace(/\s+/g, '-')}`}
-                            className="block py-2 text-sm text-gray-400 hover:text-white transition-all"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {subItem}
-                          </Link>
-                        ))}
+                        {item.submenu?.map((subItem) => {
+                          const IconComponent = submenuIcons[subItem]
+                          return (
+                            <Link
+                              key={subItem}
+                              href={`/services/${subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-')}`}
+                              className="flex items-center space-x-3 py-2 text-sm text-gray-400 hover:text-white transition-all"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35]" />}
+                              <span>{subItem}</span>
+                            </Link>
+                          )
+                        })}
                       </div>
                     </div>
                   )}

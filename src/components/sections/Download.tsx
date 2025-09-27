@@ -15,7 +15,7 @@ export default function DownloadSection() {
             className="text-4xl lg:text-5xl font-bold mb-4"
           >
             <span className="bg-gradient-to-r from-[#FFFFFF] via-[#E0E0E0] to-[#FF6B35] bg-clip-text text-transparent">
-              Send and receive money across borders today!
+              Spend Bitcoin & crypto anywhere without selling
             </span>
           </motion.h2>
         </div>

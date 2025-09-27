@@ -73,36 +73,34 @@ export default function IntroSection() {
               className="group"
             >
               <div className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-lg rounded-3xl p-8 border border-white/10 hover:border-[#FF6B35]/40 transition-all duration-500 h-full">
-                <div className="flex items-start gap-4 mb-8">
+                <div className="flex items-center gap-4 mb-8 justify-center">
                   <div className="w-14 h-14 bg-gradient-to-br from-[#FF6B35] to-[#FF8E35] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                     <span className="text-2xl">👤</span>
                   </div>
-                  <div className="text-left">
-                    <h3 className="text-2xl font-bold text-white">For Everyday Users</h3>
-                  </div>
+                  <h3 className="text-2xl font-bold text-white flex items-center">Retail users</h3>
                 </div>
 
                 <ul className="space-y-5 mb-8 pl-2">
                   {[
-                    "Instantly pay tuition, school fees, and bills abroad",
-                    "Receive salary, remittances, or payouts in local currency",
-                    "Save in Bitcoin or USD to protect against inflation",
-                    "Save while you spend with Cashwyre"
+                    "Instant Virtual Dollar cards in 3 minutes & shop globally.",
+                    "Spend your crypto for everyday transactions without selling.",
+                    "DCA made easy. Accumulate BTC/USD(T) daily, weekly, or monthly.",
+                    "Buy Airtime/Data and pay for utility bills with ease."
                   ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-4">
+                    <li key={index} className="flex items-center gap-4">
                       <div className="w-2 h-2 rounded-full bg-[#FF6B35] mt-2 flex-shrink-0" />
                       <span className="text-gray-300 leading-relaxed text-left">{item}</span>
                     </li>
                   ))}
                 </ul>
 
-                <button className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FF8E35] text-white px-6 py-4 rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300 transform hover:scale-105">
-                  Read More
-                </button>
+                <a href="/services/retail-customers" className="block w-full">
+                  <button className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FF8E35] text-white px-6 py-4 rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300 transform hover:scale-105">
+                    Read More
+                  </button>
+                </a>
               </div>
             </motion.div>
-
-            {/* Businesses Card */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -111,30 +109,32 @@ export default function IntroSection() {
               className="group"
             >
               <div className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-lg rounded-3xl p-8 border border-white/10 hover:border-[#FFA726]/40 transition-all duration-500 h-full">
-                <div className="flex items-center justify-center gap-4 mb-8">
+                <div className="flex items-center gap-4 mb-8 justify-center">
                   <div className="w-14 h-14 bg-gradient-to-br from-[#FFA726] to-[#FF8E35] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                     <span className="text-2xl">🏢</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-white">For Businesses & Builders</h3>
+                  <h3 className="text-2xl font-bold text-white flex items-center">Merchants & Fintechs</h3>
                 </div>
 
                 <ul className="space-y-5 mb-8 pl-2">
                   {[
-                    "Accept global payments in crypto or fiat, no coding required",
+                    "Accept crypto or fiat payments in minutes, no coding required",
+                    "Issue virtual cards and crypto wallets to your customers",
                     "Automate payouts with our APIs and developer tools",
-                    "Real-time dashboard to track revenue and settlements",
-                    "Issue virtual cards and crypto wallets to your FinTech users"
+                    "Monitor and track revenue and settlements on your business portal"
                   ].map((item, index) => (
-                    <li key={index} className="flex items-start gap-4">
+                    <li key={index} className="flex items-center gap-4">
                       <div className="w-2 h-2 rounded-full bg-[#FFA726] mt-2 flex-shrink-0" />
                       <span className="text-gray-300 leading-relaxed text-left">{item}</span>
                     </li>
                   ))}
                 </ul>
 
-                <button className="w-full bg-gradient-to-r from-[#FFA726] to-[#FF8E35] text-white px-6 py-4 rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300 transform hover:scale-105">
-                  Learn More
-                </button>
+                <a href="/services/merchants-businesses" className="block w-full">
+                  <button className="w-full bg-gradient-to-r from-[#FFA726] to-[#FF8E35] text-white px-6 py-4 rounded-xl font-semibold hover:shadow-xl hover:shadow-orange-500/20 transition-all duration-300 transform hover:scale-105">
+                    Learn More
+                  </button>
+                </a>
               </div>
             </motion.div>
           </motion.div>

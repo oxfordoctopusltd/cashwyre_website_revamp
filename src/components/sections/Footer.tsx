@@ -39,7 +39,8 @@ export default function Footer() {
               />
             </Link>
             <p className="text-gray-400 leading-relaxed">
-              Making borderless transactions easy. Send and receive money freely across borders with Cashwyre's secure platform.
+              {/* Making borderless transactions easy. Send and receive money freely across borders with Cashwyre's secure platform. */}
+              Cashwyre, simplifying payments
             </p>
             <div className="flex space-x-4 mt-4">
               <Link href="https://www.linkedin.com/company/cashwyrehq/posts/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors">
@@ -92,12 +93,24 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-8 pt-4 text-center space-y-3">
-          <p className="text-gray-400 text-xs leading-relaxed max-w-4xl mx-auto">
-            Cashwyre is not a licensed money transfer operator, bureau de change, or remittance service provider. All cross-border and currency exchange transactions are facilitated by licensed third-party partners in accordance with applicable laws and regulations. Cashwyre serves solely as a technology platform enabling access to these services.
-          </p>
-          <p className="text-gray-300 text-sm font-semibold">
-            © {new Date().getFullYear()} Cashwyre. All rights reserved.
+        <div className="border-t border-white/10 mt-8 pt-4">
+          <div className="flex justify-between items-start mb-4">
+            <div className="text-gray-400 text-xs leading-relaxed max-w-2xl">
+              <p className="mb-2">
+                Cashwyre is a product of Wyrelight Technologies Limited, offering alternative payment solutions powered by blockchain technology. Our platform enables the use of cryptocurrencies for everyday transactions in a secure and sustainable manner.
+              </p>
+              <p>
+                Cashwyre is not a bank. We do not hold customer deposits, custody assets, or provide any services that require regulatory authorization.
+              </p>
+            </div>
+            <div className="flex flex-col space-y-1 text-xs">
+              <a href="https://cashwyre.io/privacy" className="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">Privacy policy</a>
+              <a href="https://cashwyre.io/aml" className="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">AML policy</a>
+              <a href="https://cashwyre.io/terms" className="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">Terms & Condition</a>
+            </div>
+          </div>
+          <p className="text-gray-300 text-sm font-semibold text-center">
+            © 2023 - {new Date().getFullYear()} Cashwyre. All rights reserved.
           </p>
         </div>
       </div>

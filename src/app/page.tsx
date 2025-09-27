@@ -9,14 +9,14 @@ import Steps from "@/components/sections/Steps"
 
 export default function Home() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-2">
       <Hero />
+      <DownloadSection />
       <IntroSection />
       <Features />
       <Countries />
       <Calculator />
       <Steps />
-      <DownloadSection />
     </div>
   )
 }

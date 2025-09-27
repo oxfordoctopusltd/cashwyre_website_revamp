@@ -19,7 +19,7 @@ const countries = [
 
 export default function Countries() {
   return (
-    <section className="py-20 overflow-hidden">
+    <section className="py-8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title */}
         <motion.div

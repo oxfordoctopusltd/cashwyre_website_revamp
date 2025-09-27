@@ -4,18 +4,27 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, Download, QrCode } from "lucide-react"
 import Image from "next/image"
 
-const heroTags = [
-  "Send and receive money across borders today!",
-  "Convert your Crypto to Cash with Crypto4Cash",
-  "Shop Globally With Cashwyre Dollar Card",
-  "Build with Cashwyre APIs",
-]
-
-const heroSlogans = [
-  "No hidden charges and no subscription needed.",
-  "Launch your FinTech app in days with Cashwyre APIs",
-  "No hidden charges and no subscription needed.",
-  "Hassle-free transactions using the Bitcoin & Crypto network.",
+const heroSlides = [
+  {
+    tag: "Spend with Crypto",
+    slogan: "Cashwyre makes it effortless to use crypto for your everyday payments."
+  },
+  {
+    tag: "Get Your Dollar Card",
+    slogan: "Spend online anywhere in the world. Safe. Simple. Instant. Free."
+  },
+  {
+    tag: "Build With Cashwyre APIs",
+    slogan: <span>Build & Launch your apps in days with Cashwyre APIs. <a href="https://business.cashwyre.com/doc/api" className="text-[#FF6B35] hover:underline" target="_blank" rel="noopener noreferrer">Visit API Docs</a></span>
+  },
+  {
+    tag: "Reach More Customers Globally",
+    slogan: <span>One Paylink, global reach. Take payments from anywhere, get settled instantly. <a href="/business" className="text-[#FF6B35] hover:underline">Get Started</a></span>
+  },
+  {
+    tag: "Get Paid In Crypto",
+    slogan: "Work globally, earn in crypto, and withdraw instantly in your local currency. Zero fees."
+  }
 ]
 
 export default function Hero() {
@@ -23,13 +32,13 @@ export default function Hero() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTag((prev) => (prev + 1) % heroTags.length)
+      setCurrentTag((prev) => (prev + 1) % heroSlides.length)
     }, 4000)
     return () => clearInterval(interval)
   }, [])
 
-  const nextTag = () => setCurrentTag((prev) => (prev + 1) % heroTags.length)
-  const prevTag = () => setCurrentTag((prev) => (prev - 1 + heroTags.length) % heroTags.length)
+  const nextTag = () => setCurrentTag((prev) => (prev + 1) % heroSlides.length)
+  const prevTag = () => setCurrentTag((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-16">
@@ -59,35 +68,27 @@ export default function Hero() {
           {/* Main Heading */}
           <div className="pt-4">
             <AnimatePresence mode="wait">
-              <motion.h1
+              <motion.div
                 key={currentTag}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.5 }}
-                className="text-4xl lg:text-6xl font-bold leading-tight"
               >
-                <span className="bg-gradient-to-r from-[#FFFFFF] via-[#E0E0E0] to-[#FF6B35] bg-clip-text text-transparent">
-                  {heroTags[currentTag]}
-                </span>
-              </motion.h1>
-            </AnimatePresence>
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={currentTag}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-xl text-gray-300 mt-4 max-w-2xl"
-              >
-                {heroSlogans[currentTag]}
-              </motion.p>
+                <h1 className="text-2xl lg:text-4xl font-bold leading-tight mb-2">
+                  <span className="bg-gradient-to-r from-[#FFFFFF] via-[#E0E0E0] to-[#FF6B35] bg-clip-text text-transparent">
+                    {heroSlides[currentTag].tag}
+                  </span>
+                </h1>
+                <p className="text-base lg:text-xl text-gray-300 max-w-2xl">
+                  {heroSlides[currentTag].slogan}
+                </p>
+              </motion.div>
             </AnimatePresence>
           </div>
 
           {/* Carousel Controls */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center">
             <div className="flex items-center space-x-4">
               <button
                 onClick={prevTag}
@@ -97,7 +98,7 @@ export default function Hero() {
               </button>
 
               <div className="flex space-x-3">
-                {heroTags.map((_, index) => (
+                {heroSlides.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentTag(index)}
@@ -114,100 +115,62 @@ export default function Hero() {
               >
                 <ChevronRight className="w-5 h-5 group-hover:scale-110 transition-transform" />
               </button>
-            </div>
 
-            <div className="text-sm text-[#E0E0E0] font-medium">
-              {currentTag + 1} / {heroTags.length}
+              <div className="ml-2 text-sm text-[#E0E0E0] font-medium">
+                {currentTag + 1} / {heroSlides.length}
+              </div>
             </div>
           </div>
 
-          {/* Download Section - QR Code + Buttons Grouped */}
-          <motion.div 
+          {/* Spend Crypto Instantly Box */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
             className="pt-6"
           >
-            <div className="glass-card rounded-2xl p-6 border border-white/10 shadow-xl">
-              <div className="flex flex-col lg:flex-row items-center gap-6">
-                {/* QR Code Section */}
-                <div className="text-center lg:text-left">
-                  <div className="flex items-center justify-center lg:justify-start gap-2 mb-3">
-                    <QrCode className="w-5 h-5 text-[#FFA726]" />
-                    <h3 className="font-semibold text-white text-lg">Scan to Download</h3>
-                  </div>
-                  
-                  <div className="w-32 h-32 mx-auto lg:mx-0 bg-gradient-to-br from-[#FF6B35] to-[#FFA726] rounded-xl flex items-center justify-center p-2 shadow-lg">
-                    <div className="w-full h-full bg-white rounded-lg flex items-center justify-center">
-                      <Image
-                        src="/img/others/download-qrcode.png"
-                        alt="Download QR Code"
-                        width={96}
-                        height={96}
-                        className="w-full h-full object-contain rounded-md"
-                      />
-                    </div>
-                  </div>
-                  <p className="text-sm text-[#E0E0E0] mt-2">Available on iOS & Android</p>
-                </div>
-
-                {/* Vertical Divider - Only on larger screens */}
-                <div className="hidden lg:block w-px h-20 bg-white/20" />
-
-                {/* Download Buttons */}
-                <div className="space-y-4 flex-1 min-w-[200px]">
-                  <a
-                    href="https://apps.apple.com/tr/app/cashwyre/id6450153762?l=tr"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-between gap-4 glass-card border border-white/20 px-4 py-3 rounded-xl hover:bg-white/10 transition-all duration-300 group hover:scale-105"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src="/img/logos/appStore.png"
-                        alt="App Store"
-                        width={36}
-                        height={36}
-                        className="w-9 h-9 object-contain"
-                      />
-                      <div className="text-left">
-                        <div className="text-xs text-[#E0E0E0]">Download on</div>
-                        <div className="font-semibold text-white">App Store</div>
-                      </div>
-                    </div>
-                    <Download className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
-                  </a>
-
-                  <a
-                    href="https://play.google.com/store/apps/details?id=com.vickzil.cashwyre"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full flex items-center justify-between gap-4 glass-card border border-white/20 px-4 py-3 rounded-xl hover:bg-white/10 transition-all duration-300 group hover:scale-105"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src="/img/logos/playstore.png"
-                        alt="Google Play"
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 object-contain"
-                      />
-                      <div className="text-left">
-                        <div className="text-xs text-[#E0E0E0]">Get it on</div>
-                        <div className="font-semibold text-white">Google Play</div>
-                      </div>
-                    </div>
-                    <Download className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
-                  </a>
-                </div>
-              </div>
-
-              {/* Testimonial */}
-              <div className="glass-card p-4 rounded-xl border border-white/10 mt-4 text-center">
-                <p className="text-sm text-[#E0E0E0] italic">
-                  "The easiest way to send money across borders. Fast, secure, and reliable!"
+            <div className="glass-card rounded-2xl p-8 border border-white/10 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
+              <div className="flex-1 min-w-[300px]">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                  Spend your <span className="text-[#FF6B35]">Crypto</span> instantly<br className="hidden md:block" /> without selling
+                </h2>
+                <p className="text-gray-300 text-lg max-w-xl">
+                  With Cashwyre's Crypto4Cash, your crypto instantly becomes cash (NGN, GHS, ZAR...) you can spend anytime, anywhere across Africa.
                 </p>
               </div>
+              <form className="flex-1 min-w-[320px] max-w-md w-full flex flex-col gap-2" onSubmit={e => e.preventDefault()}>
+                <label htmlFor="currency" className="text-gray-200 mb-1">Enter amount to pay</label>
+                <div className="flex w-full">
+                  <select
+                    id="currency"
+                    className="rounded-l-lg border border-gray-300 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
+                    style={{ minWidth: 90 }}
+                    defaultValue="NGN"
+                  >
+                    <option value="NGN">NGN</option>
+                    <option value="GHS">GHS</option>
+                    <option value="ZAR">ZAR</option>
+                  </select>
+                  <input
+                    type="number"
+                    min="1000"
+                    max="400000"
+                    step="100"
+                    placeholder="1000"
+                    className="flex-1 border-t border-b border-gray-300 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
+                    style={{ borderLeft: 'none' }}
+                  />
+                  <button
+                    type="submit"
+                    className="rounded-r-lg bg-[#FF6B35] text-white px-6 py-3 font-semibold hover:bg-[#FFA726] transition-colors border border-[#FF6B35] border-l-0"
+                  >
+                    Send
+                  </button>
+                </div>
+                <div className="text-gray-400 text-sm mt-1">
+                  ₦1,000.00 - ₦400,000.00
+                </div>
+              </form>
             </div>
           </motion.div>
         </motion.div>

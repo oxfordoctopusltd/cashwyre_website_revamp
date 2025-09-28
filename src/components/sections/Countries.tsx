@@ -32,7 +32,7 @@ export default function Countries() {
             Available in <span className="gradient-text">{countries.length} countries</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Send money directly to bank accounts and mobile money wallets across Africa and beyond.
+            Instantly spend your crypto as local currency across supported Cashwyre corridors.
           </p>
         </motion.div>
 

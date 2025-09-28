@@ -1,35 +1,10 @@
 "use client"
 import { motion } from "framer-motion"
 import { CreditCard, Download, Shield, Zap, Globe, Smartphone, Bitcoin, DollarSign, ArrowRight, Check } from "lucide-react"
-import Link from "next/link"
 import Image from "next/image"
 import DownloadSection from "@/components/sections/Download"
 
 const features = [
-  {
-    icon: Bitcoin,
-    title: "Save (DCA) BTC",
-    description: "Automatically save and accumulate BTC daily, weekly, or monthly with Cashwyre.",
-    color: "from-orange-500 to-yellow-500"
-  },
-  {
-    icon: DollarSign,
-    title: "Save (DCA) USD",
-    description: "Save in USD with Cashwyre and earn 5-10% interest automatically - daily, weekly, or monthly.",
-    color: "from-green-500 to-emerald-500"
-  },
-  {
-    icon: Globe,
-    title: "Send/Receive Crypto",
-    description: "Send & Receive BTC, USDT, USDC with Cashwyre and instantly convert to NGN, ZAR, GHS, KES.",
-    color: "from-purple-500 to-pink-500"
-  },
-  {
-    icon: Zap,
-    title: "Send Money Instantly",
-    description: "Send money securely and cheaply instantly across Africa and get the best rates in the space.",
-    color: "from-blue-500 to-cyan-500"
-  },
   {
     icon: CreditCard,
     title: "Cashwyre Dollar Card",
@@ -43,6 +18,12 @@ const features = [
     color: "from-indigo-500 to-purple-500"
   },
   {
+    icon: Globe,
+    title: "Send/Receive Crypto",
+    description: "Send & Receive BTC, USDT, USDC with Cashwyre and instantly convert to NGN, ZAR, GHS, KES.",
+    color: "from-purple-500 to-pink-500"
+  },
+  {
     icon: Smartphone,
     title: "Bills Payment",
     description: "Pay for utility bills, buy airtime, data, electricity, and much more with Cashwyre.",
@@ -53,7 +34,25 @@ const features = [
     title: "Cashwyre Paylink",
     description: "As a solopreneur or one-person business, you can receive fiat or crypto payments from your customers with one static URL.",
     color: "from-pink-500 to-rose-500"
-  }
+  },
+  {
+    icon: Bitcoin,
+    title: "Save (DCA) BTC",
+    description: "Automatically save and accumulate BTC daily, weekly, or monthly with Cashwyre.",
+    color: "from-orange-500 to-yellow-500"
+  },
+  {
+    icon: DollarSign,
+    title: "Save (DCA) USD",
+    description: "Save in USDT, daily, weekly, or monthly. It's fully automated and instant.",
+    color: "from-green-500 to-emerald-500"
+  },
+  // {
+  //   icon: Zap,
+  //   title: "Send Money Instantly",
+  //   description: "Send money securely and cheaply instantly across Africa and get the best rates in the space.",
+  //   color: "from-blue-500 to-cyan-500"
+  // },
 ]
 
 const benefits = [
@@ -75,7 +74,7 @@ const savingsOptions = [
   },
   {
     title: "USD Savings",
-    description: "Save in USD with Cashwyre and earn 5-10% interest automatically - daily, weekly, or monthly.",
+    description: "Save in USDT, daily, weekly, or monthly. It's fully automated and instant.",
     rate: "5-10% APR",
     icon: DollarSign,
     color: "from-green-500 to-emerald-500"
@@ -93,7 +92,7 @@ export default function RetailCustomers() {
         className="max-w-7xl mx-auto text-center mb-20"
       >
         <h1 className="text-5xl lg:text-7xl font-bold mb-6">
-          Retail <span className="gradient-text">Customers</span>
+          Retail <span className="gradient-text">users</span>
         </h1>
         <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
           Everything you need in one app
@@ -179,12 +178,10 @@ export default function RetailCustomers() {
             <div className="space-y-6">
               <Shield className="w-16 h-16 text-[#FF6B35]" />
               <h2 className="text-4xl lg:text-5xl font-bold">
-                Your Keys, <span className="gradient-text">Your Bitcoin</span>
+                Enjoy Secured, <span className="gradient-text">Payment</span>
               </h2>
               <p className="text-lg text-gray-300">
-                Your keys, your Bitcoin. We believe in true financial freedom.
-                Not your keys, not your Bitcoin. Take control of your digital assets
-                with our tools and education.
+                Your payments are easy, instant, and secure. Enjoy seamless payments with Cashwyre.
               </p>
             </div>
             <motion.div
@@ -199,7 +196,7 @@ export default function RetailCustomers() {
               }}
               className="relative w-full h-80 rounded-3xl overflow-hidden"
             >
-              <Image src="/img/business/dashboard-new.png" alt="Dashboard" fill className="object-contain" />
+              <Image src="/img/business/crypto-wallets.png" alt="Dashboard" fill className="object-contain" />
             </motion.div>
           </div>
         </div>

@@ -12,14 +12,14 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Services", submenu: ["Retail Customers", "Merchants & Businesses"] },
+  { name: "Services", submenu: ["Retail users", "Merchants & Businesses"] },
   { name: "Business", href: "/business" },
   { name: "About Us", href: "/about" },
   { name: "Support", href: "/support" },
 ]
 
 const submenuIcons: Record<string, any> = {
-  "Retail Customers": Users,
+  "Retail users": Users,
   "Merchants & Businesses": Building,
 }
 
@@ -51,6 +51,7 @@ export default function FloatingNav() {
             alt="Cashwyre"
             width={140}
             height={140}
+            style={{ width: "140px", height: "auto" }}
             className="rounded-xl shadow-lg group-hover:scale-105 transition-transform"
           />
         </Link>
@@ -90,18 +91,22 @@ export default function FloatingNav() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute top-full left-0 mt-2 glass-card p-4 min-w-64 rounded-xl shadow-2xl border border-white/10"
+                  className="absolute top-full left-0 mt-2 glass-card p-4 min-w-[290px] rounded-xl shadow-2xl border border-white/10"
                 >
                   {item.submenu.map((subItem) => {
                     const IconComponent = submenuIcons[subItem]
+                    let subPath = '';
+                    if (subItem === 'Retail users') subPath = 'retail-users';
+                    else if (subItem === 'Merchants & Businesses') subPath = 'businesses-fintechs';
+                    else subPath = subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-');
                     return (
                       <Link
                         key={subItem}
-                        href={`/services/${subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-')}`}
-                        className="flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 mb-1 last:mb-0"
+                        href={`/services/${subPath}`}
+                        className="flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-[#FF6B35] rounded-lg transition-all duration-200 mb-1 last:mb-0 group"
                       >
-                        {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35]" />}
-                        <span>{subItem}</span>
+                        {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
+                        <span className="group-hover:text-white transition-colors">{subItem}</span>
                       </Link>
                     )
                   })}
@@ -152,9 +157,9 @@ export default function FloatingNav() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             className="lg:hidden glass-card mx-4 mb-4 rounded-xl overflow-hidden border border-white/10"
           >
             <div className="p-4 space-y-2">
@@ -174,15 +179,19 @@ export default function FloatingNav() {
                       <div className="space-y-1 pl-4">
                         {item.submenu?.map((subItem) => {
                           const IconComponent = submenuIcons[subItem]
+                          let subPath = '';
+                          if (subItem === 'Retail users') subPath = 'retail-users';
+                          else if (subItem === 'Merchants & Businesses') subPath = 'businesses-fintechs';
+                          else subPath = subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-');
                           return (
                             <Link
                               key={subItem}
-                              href={`/services/${subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-')}`}
-                              className="flex items-center space-x-3 py-2 text-sm text-gray-400 hover:text-white transition-all"
+                              href={`/services/${subPath}`}
+                              className="flex items-center space-x-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#FF6B35] transition-all group"
                               onClick={() => setIsOpen(false)}
                             >
-                              {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35]" />}
-                              <span>{subItem}</span>
+                              {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
+                              <span className="group-hover:text-white transition-colors">{subItem}</span>
                             </Link>
                           )
                         })}

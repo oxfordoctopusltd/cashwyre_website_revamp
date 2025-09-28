@@ -7,7 +7,7 @@ const footerSections = [
   {
     title: "Services",
     links: [
-      { name: "Retail Customers", href: "/services/retail-customers" },
+  { name: "Retail Customers", href: "/services/retail-customers" },
       { name: "Merchants & Businesses", href: "/services/merchants-businesses" },
       { name: "Business", href: "/business" },
     ]
@@ -18,6 +18,9 @@ const footerSections = [
       { name: "About Us", href: "/about" },
       { name: "Support", href: "/support" },
       { name: "Get Started", href: "/get-started" },
+      { name: "Privacy policy", href: "https://cashwyre.io/privacy", external: true },
+      { name: "AML policy", href: "https://cashwyre.io/aml", external: true },
+      { name: "Terms & Condition", href: "https://cashwyre.io/terms", external: true },
     ]
   },
 ]
@@ -39,7 +42,6 @@ export default function Footer() {
               />
             </Link>
             <p className="text-gray-400 leading-relaxed">
-              {/* Making borderless transactions easy. Send and receive money freely across borders with Cashwyre's secure platform. */}
               Cashwyre, simplifying payments
             </p>
             <div className="flex space-x-4 mt-4">
@@ -77,36 +79,75 @@ export default function Footer() {
 
           {/* Company Section */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-white text-lg">Company</h3>
-            <ul className="space-y-3">
-              {footerSections[1].links.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-gray-400 hover:text-white transition-colors text-sm"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="relative flex items-center justify-center mb-2">
+              <div className="flex-1 h-px bg-white/20" />
+              <h3 className="font-semibold text-white text-lg px-4 whitespace-nowrap z-10 bg-[#0A0A0A]">Company</h3>
+              <div className="flex-1 h-px bg-white/20" />
+            </div>
+            <div className="flex flex-row gap-8 items-start justify-center relative">
+              <ul className="space-y-3">
+                {footerSections[1].links.slice(0, 3).map((link) => (
+                  <li key={link.name}>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors text-sm"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors text-sm"
+                      >
+                        {link.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              {/* Vertical divider, starts below heading and is centered */}
+              <div className="hidden md:flex justify-center">
+                <div className="h-full w-px bg-white/20 mx-4" style={{ minHeight: '80px', marginTop: 0 }} />
+              </div>
+              <ul className="space-y-3">
+                {footerSections[1].links.slice(3).map((link) => (
+                  <li key={link.name}>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors text-sm"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-gray-400 hover:text-white transition-colors text-sm"
+                      >
+                        {link.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
         <div className="border-t border-white/10 mt-8 pt-4">
-          <div className="flex justify-between items-start mb-4">
-            <div className="text-gray-400 text-xs leading-relaxed max-w-2xl">
+          <div className="flex justify-center mb-4">
+            <div className="text-gray-400 text-xs leading-relaxed max-w-2xl text-center">
               <p className="mb-2">
                 Cashwyre is a product of Wyrelight Technologies Limited, offering alternative payment solutions powered by blockchain technology. Our platform enables the use of cryptocurrencies for everyday transactions in a secure and sustainable manner.
               </p>
               <p>
                 Cashwyre is not a bank. We do not hold customer deposits, custody assets, or provide any services that require regulatory authorization.
               </p>
-            </div>
-            <div className="flex flex-col space-y-1 text-xs">
-              <a href="https://cashwyre.io/privacy" className="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">Privacy policy</a>
-              <a href="https://cashwyre.io/aml" className="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">AML policy</a>
-              <a href="https://cashwyre.io/terms" className="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">Terms & Condition</a>
             </div>
           </div>
           <p className="text-gray-300 text-sm font-semibold text-center">

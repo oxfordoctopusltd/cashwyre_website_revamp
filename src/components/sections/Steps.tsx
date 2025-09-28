@@ -7,25 +7,25 @@ const steps = [
   {
     icon: UserCheck,
     title: "Signup in Minutes",
-    description: "Sign up on our Web App or Mobile App. Available for Android and IOS devices.",
+    description: "Download & Sign Up. Availablable on iOS and Android.",
     color: "from-blue-500 to-cyan-500"
   },
   {
     icon: ShieldCheck,
     title: "Identity verification",
-    description: "Provide extra basic information to assist us with verifying your details.",
+    description: "Complete your Account verification process in Minutes.",
     color: "from-green-500 to-emerald-500"
   },
   {
     icon: Wallet,
     title: "Fund Your Wallet",
-    description: "Fund your wallet through FIAT or stable coins (USDT or USDC).",
+    description: "Fund your Account using Bitcoin, Stablecoin, or Local Currency.",
     color: "from-purple-500 to-pink-500"
   },
   {
     icon: Rocket,
     title: "Start transacting",
-    description: "Buy BTC, Sell BTC, Receive BTC, Send BTC as well as stable coins.",
+    description: "Buy, Sell, Send & Receive Bitcoin & Stablecoins seamlessly.",
     color: "from-orange-500 to-red-500"
   }
 ]
@@ -60,9 +60,6 @@ export default function Steps() {
                   <div className={`w-16 h-16 mx-auto bg-gradient-to-r ${step.color} rounded-2xl flex items-center justify-center`}>
                     <step.icon className="w-8 h-8 text-white" />
                   </div>
-                  {index < steps.length - 1 && (
-                    <div className="hidden lg:block absolute top-8 -right-8 w-16 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FFA726]" />
-                  )}
                 </div>
                 <div className="space-y-2">
                   <div className="text-2xl font-bold text-[#FF6B35]">0{index + 1}</div>

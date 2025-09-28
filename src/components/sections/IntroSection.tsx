@@ -23,11 +23,11 @@ export default function IntroSection() {
           {/* Sleeker Main Heading */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Simplify Cross-Border
+              Pay with Crypto
             </span>
             <br />
             <span className="bg-gradient-to-r from-[#FF6B35] via-[#FF8E35] to-[#FFA726] bg-clip-text text-transparent">
-              & Crypto Payments
+              Instantly
             </span>
           </h1>
 
@@ -39,10 +39,11 @@ export default function IntroSection() {
             viewport={{ once: true }}
             className="text-xl md:text-2xl text-gray-400 leading-relaxed mb-12 max-w-3xl mx-auto"
           >
-            Send, receive, and save money using{" "}
-            <span className="text-[#FF6B35] font-medium">Bitcoin</span>,{" "}
-            <span className="text-[#FFA726] font-medium">Stablecoin</span>, or{" "}
-            <span className="text-white font-medium">local currencies</span> in one platform
+            We make it easy for you to perform your day-to-day local currency transactions
+{" "}
+            <span className="text-[#FF6B35] font-medium">using crypto</span>.{" "}
+            {/* <span className="text-[#FFA726] font-medium">Stablecoin</span>, or{" "}
+            <span className="text-white font-medium">local currencies</span> in one platform */}
           </motion.p>
 
           {/* Minimal Divider */}
@@ -113,15 +114,15 @@ export default function IntroSection() {
                   <div className="w-14 h-14 bg-gradient-to-br from-[#FFA726] to-[#FF8E35] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                     <span className="text-2xl">🏢</span>
                   </div>
-                  <h3 className="text-2xl font-bold text-white flex items-center">Merchants & Fintechs</h3>
+                  <h3 className="text-2xl font-bold text-white flex items-center">Businesses & Fintechs</h3>
                 </div>
 
                 <ul className="space-y-5 mb-8 pl-2">
                   {[
-                    "Accept crypto or fiat payments in minutes, no coding required",
-                    "Issue virtual cards and crypto wallets to your customers",
-                    "Automate payouts with our APIs and developer tools",
-                    "Monitor and track revenue and settlements on your business portal"
+                    "Accept crypto or local currency payments in minutes, no coding required.",
+                    "Issue instant dollar cards and crypto wallets to your customers.",
+                    "Automate payouts with our APIs and developer tools.",
+                    "Monitor revenue and settlements directly on your business portal."
                   ].map((item, index) => (
                     <li key={index} className="flex items-center gap-4">
                       <div className="w-2 h-2 rounded-full bg-[#FFA726] mt-2 flex-shrink-0" />

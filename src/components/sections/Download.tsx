@@ -1,6 +1,6 @@
 "use client"
 import { motion } from "framer-motion"
-import { Download, QrCode } from "lucide-react"
+import { Download } from "lucide-react"
 import Image from "next/image"
 
 export default function DownloadSection() {
@@ -15,7 +15,7 @@ export default function DownloadSection() {
             className="text-4xl lg:text-5xl font-bold mb-4"
           >
             <span className="bg-gradient-to-r from-[#FFFFFF] via-[#E0E0E0] to-[#FF6B35] bg-clip-text text-transparent">
-              Spend Bitcoin & crypto anywhere without selling
+              Spend Bitcoin & crypto anywhere
             </span>
           </motion.h2>
         </div>
@@ -29,9 +29,8 @@ export default function DownloadSection() {
           <div className="glass-card rounded-2xl p-8 border border-white/10 shadow-xl">
             <div className="flex flex-col lg:flex-row items-center gap-8">
               {/* QR Code Section */}
-              <div className="text-center lg:text-left">
-                <div className="flex items-center justify-center lg:justify-start gap-2 mb-4">
-                  <QrCode className="w-6 h-6 text-[#FFA726]" />
+              <div className="text-center sm:text-left">
+                <div className="flex items-center justify-center sm:justify-start gap-2 mb-4">
                   <h3 className="font-semibold text-white text-xl">Scan to Download</h3>
                 </div>
 
@@ -46,7 +45,7 @@ export default function DownloadSection() {
                     />
                   </div>
                 </div>
-                <p className="text-sm text-[#E0E0E0] mt-3">Available on iOS & Android</p>
+                {/* <p className="text-sm text-[#E0E0E0] mt-3">Available on iOS & Android</p> */}
               </div>
 
               {/* Vertical Divider - Only on larger screens */}
@@ -103,7 +102,7 @@ export default function DownloadSection() {
             {/* Testimonial */}
             <div className="glass-card p-4 rounded-xl border border-white/10 mt-6 text-center">
               <p className="text-sm text-[#E0E0E0] italic">
-                "The easiest way to send money across borders. Fast, secure, and reliable!"
+                "Send, Receive & Spend your crypto instantly without selling."
               </p>
             </div>
           </div>

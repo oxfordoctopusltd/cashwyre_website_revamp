@@ -38,86 +38,95 @@ export default function Calculator() {
   }
 
   return (
-    <section className="py-9">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12 bg-[#181818]
+    ">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          className="mb-10"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-2">
             Crypto<span className="gradient-text">↗Fiat</span> Calculator
           </h2>
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-400 text-lg mb-2">
             Get instant estimates for your conversions
           </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="glass-card p-8 space-y-6"
+          className="rounded-3xl bg-[#232323] shadow-2xl flex flex-col md:flex-row items-stretch"
         >
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <label className="block text-sm font-medium text-gray-300">You Send</label>
-              <div className="space-y-3">
+          {/* Left: Description */}
+          <div className="flex-1 p-8 flex flex-col justify-center min-w-[320px]">
+            <h3 className="text-3xl font-semibold mb-4 text-white">Crypto↗Fiat Calculator</h3>
+            <p className="text-gray-300 text-lg mb-2">
+              Select send currency, receive currency, and supply the amount to send.<br />
+              Cashwyre instantly computes an estimate of what will be received if the transaction is treated immediately.
+              <span className="block mt-2 text-[#FFA726] font-semibold underline underline-offset-4 cursor-pointer hover:text-[#FF6B35] transition">Send money freely today!</span>
+            </p>
+          </div>
+          {/* Right: Form */}
+          <div className="flex-1 p-8 flex flex-col justify-center min-w-[320px]">
+            <form
+              className="space-y-6"
+              onSubmit={e => { e.preventDefault(); handleConvert(); }}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <select
+                  value={sendCurrency}
+                  onChange={(e) => setSendCurrency(e.target.value)}
+                  className="w-full bg-[#232323] border border-white/20 rounded-lg px-4 py-3 text-white focus:border-[#FF6B35] focus:outline-none transition-colors appearance-none"
+                >
+                  <option value="" disabled>Select send currency</option>
+                  {currencies.map((currency) => (
+                    <option key={currency.code} value={currency.code}>
+                      {currency.flag} {currency.code} - {currency.name}
+                    </option>
+                  ))}
+                </select>
                 <input
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400 focus:border-[#FF6B35] focus:outline-none transition-colors"
-                  placeholder="Enter amount"
-                />
-                <select
-                  value={sendCurrency}
-                  onChange={(e) => setSendCurrency(e.target.value)}
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-[#FF6B35] focus:outline-none transition-colors"
-                >
-                  {currencies.map((currency) => (
-                    <option key={currency.code} value={currency.code}>
-                      {currency.flag} {currency.code} - {currency.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <label className="block text-sm font-medium text-gray-300">You Receive</label>
-              <div className="space-y-3">
-                <input
-                  type="text"
-                  value={convertedAmount}
-                  readOnly
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-400"
-                  placeholder="0.00"
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-[#FF6B35] focus:outline-none transition-colors"
+                  placeholder="Send Amount"
+                  min="0"
+                  required
                 />
                 <select
                   value={receiveCurrency}
                   onChange={(e) => setReceiveCurrency(e.target.value)}
-                  className="w-full bg-white/5 border border-white/20 rounded-xl px-4 py-3 text-white focus:border-[#FF6B35] focus:outline-none transition-colors"
+                  className="w-full bg-[#232323] border border-white/20 rounded-lg px-4 py-3 text-white focus:border-[#FF6B35] focus:outline-none transition-colors appearance-none"
                 >
+                  <option value="" disabled>Select receive currency</option>
                   {currencies.map((currency) => (
                     <option key={currency.code} value={currency.code}>
                       {currency.flag} {currency.code} - {currency.name}
                     </option>
                   ))}
                 </select>
+                <input
+                  type="text"
+                  value={convertedAmount}
+                  readOnly
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400"
+                  placeholder="Receive Amount (optional)"
+                />
               </div>
-            </div>
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              onClick={handleConvert}
-              className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 flex items-center space-x-2"
-            >
-              <ArrowRightLeft className="w-5 h-5" />
-              <span>Convert</span>
-            </button>
+              <div className="flex justify-end mt-2">
+                <button
+                  type="submit"
+                  className="bg-[#232323] border border-[#FFA726] text-[#FFA726] hover:bg-[#FF6B35] hover:text-white px-10 py-3 rounded-xl font-semibold shadow transition-all duration-300 text-lg min-w-[140px]"
+                >
+                  Calculate
+                </button>
+              </div>
+            </form>
           </div>
         </motion.div>
       </div>

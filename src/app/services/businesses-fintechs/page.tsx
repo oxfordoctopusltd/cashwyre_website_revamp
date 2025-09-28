@@ -9,42 +9,34 @@ import DownloadSection from "@/components/sections/Download"
 
 const apiServices = [
   {
-    icon: Zap,
-    title: "Transfer APIs",
-    description: "Send money globally with our payout APIs, instantly.",
-    features: ["Real-time transfers", "Multi-currency support", "Bulk payouts", "Webhook notifications"],
-    color: "from-blue-500 to-cyan-500"
-  },
-  {
-    icon: Globe,
-    title: "Crypto Offramp APIs",
-    description: "With our offramp APIs, you can instantly convert your crypto to local currencies in seconds across Africa.",
-    features: ["BTC, ETH, USDT, USDC", "50+ fiat currencies", "Competitive rates", "Instant settlement"],
-    color: "from-green-500 to-emerald-500"
-  },
-  {
-    icon: TrendingUp,
-    title: "Crypto Onramp APIs",
-    description: "Instantly convert local currency to crypto and have it sent to any crypto address of your choice.",
-    features: ["Local currency to crypto", "Multiple crypto support", "Instant conversion", "Secure transfers"],
-    color: "from-yellow-500 to-orange-500"
-  },
-  {
     icon: CreditCard,
     title: "Card APIs",
-    description: "Issue virtual dollar cards to your customers and develop card-based applications with our Card APIs.",
-    features: ["Instant card creation", "Global acceptance", "Spending controls", "Real-time analytics"],
+    description: "Issue virtual dollar cards to your customers & develop card-based applications with our Card APIs.",
+    features: ["Instant card creation", "Global acceptance", "Spending controls"],
     color: "from-purple-500 to-pink-500"
   },
   {
     icon: Shield,
     title: "Bills Payment APIs",
-    description: "Seamless APIs for international airtime, data, electricity bills and DSTV subscription services.",
-    features: ["Airtime & data", "Electricity bills", "Cable TV", "Internet services"],
+    description: "Seamless APIs for international airtime, data, electricity bills and DSTV subscriptions.",
+    features: ["Airtime & data", "Electricity bills", "Cable TV"],
     color: "from-orange-500 to-red-500"
-  }
+  },
+    {
+    icon: TrendingUp,
+    title: "Crypto Onramp APIs",
+    description: "Instantly convert local currency to crypto and have it sent to your preferred crypto address.",
+    features: ["Local currency to crypto", "Multiple crypto support", "Instant conversion", "Secure transfers"],
+    color: "from-yellow-500 to-orange-500"
+  },
+  {
+    icon: DollarSign,
+    title: "Crypto Offramp APIs",
+    description: "With our offramp APIs, you can instantly convert your crypto into local currencies across Africa.",
+    features: ["BTC, USDT, & USDC", "10+ local currencies", "Competitive rates", "Instant settlement"],
+    color: "from-blue-500 to-cyan-500"
+  },
 ]
-
 const businessTools = [
   {
     icon: BarChart3,
@@ -92,7 +84,7 @@ export default function MerchantsBusinesses() {
         className="max-w-7xl mx-auto text-center mb-20"
       >
         <h1 className="text-5xl lg:text-7xl font-bold mb-6">
-          Merchants & <span className="gradient-text">Businesses</span>
+          Businesses & <span className="gradient-text">Fintechs</span>
         </h1>
         <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
           Accept payments through multiple options and track everything from one place

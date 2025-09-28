@@ -11,10 +11,13 @@ const heroSlides = [
   },
   {
     tag: "Get Your Dollar Card",
-    slogan: "Spend online anywhere in the world. Safe. Simple. Instant. Free."
+    slogan: [
+      "Spend online anywhere in the world.",
+      "Safe. Simple. Instant. Free."
+    ]
   },
   {
-    tag: "Build With Cashwyre APIs",
+    tag: <span>Build With Cashwyre <br className="hidden md:inline" />APIs</span>,
     slogan: <span>Build & Launch your apps in days with Cashwyre APIs. <a href="https://business.cashwyre.com/doc/api" className="text-[#FF6B35] hover:underline" target="_blank" rel="noopener noreferrer">Visit API Docs</a></span>
   },
   {
@@ -23,7 +26,9 @@ const heroSlides = [
   },
   {
     tag: "Get Paid In Crypto",
-    slogan: "Work globally, earn in crypto, and withdraw instantly in your local currency. Zero fees."
+    slogan: [
+      "Work globally, earn in crypto, and withdraw instantly in your local currency. Zero fees."
+    ]
   }
 ]
 
@@ -33,7 +38,7 @@ export default function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTag((prev) => (prev + 1) % heroSlides.length)
-    }, 4000)
+    }, 7000)
     return () => clearInterval(interval)
   }, [])
 
@@ -41,7 +46,7 @@ export default function Hero() {
   const prevTag = () => setCurrentTag((prev) => (prev - 1 + heroSlides.length) % heroSlides.length)
 
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden pt-16">
+  <section className="relative min-h-[70vh] flex items-center justify-start overflow-hidden pt-0">
       {/* Background Gradient with World Map */}
       <div
         className="absolute inset-0 bg-gradient-to-br from-[#0F0F0F] via-[#1A1A1A] to-[#2D1E0F] opacity-90"
@@ -58,15 +63,15 @@ export default function Hero() {
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#FFA726]/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        {/* All Content on Left Side */}
+        {/* All Content aligned to the left edge, with extra top padding for text only */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="space-y-6 max-w-3xl mx-auto lg:ml-16 pt-8"
+          className="space-y-6 max-w-3xl ml-0 lg:ml-0 pt-40"
         >
           {/* Main Heading */}
-          <div className="pt-4">
+          <div className="pt-4 text-left">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentTag}
@@ -75,13 +80,25 @@ export default function Hero() {
                 exit={{ opacity: 0, y: -30 }}
                 transition={{ duration: 0.5 }}
               >
-                <h1 className="text-2xl lg:text-4xl font-bold leading-tight mb-2">
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
                   <span className="bg-gradient-to-r from-[#FFFFFF] via-[#E0E0E0] to-[#FF6B35] bg-clip-text text-transparent">
                     {heroSlides[currentTag].tag}
                   </span>
                 </h1>
-                <p className="text-base lg:text-xl text-gray-300 max-w-2xl">
-                  {heroSlides[currentTag].slogan}
+                <p className="text-base md:text-lg lg:text-xl text-gray-300 max-w-2xl">
+                  {Array.isArray(heroSlides[currentTag].slogan)
+                    ? heroSlides[currentTag].slogan.map((line, idx) => (
+                        <span key={idx} className={
+                          // Only break lines for Dollar Card, not for Get Paid In Crypto
+                          heroSlides[currentTag].tag === 'Get Your Dollar Card' && idx > 0 ? '' : 'block'
+                        }>{line}</span>
+                      ))
+                    : typeof heroSlides[currentTag].slogan === 'string'
+                      ? heroSlides[currentTag].slogan.replace(/([.!?])\s+(?=[A-Z])/g, '$1\n')
+                          .split('\n').map((line, idx) => (
+                            <span key={idx} className="block">{line}</span>
+                          ))
+                      : heroSlides[currentTag].slogan}
                 </p>
               </motion.div>
             </AnimatePresence>
@@ -132,18 +149,18 @@ export default function Hero() {
             <div className="glass-card rounded-2xl p-8 border border-white/10 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
               <div className="flex-1 min-w-[300px]">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                  Spend your <span className="text-[#FF6B35]">Crypto</span> instantly<br className="hidden md:block" /> without selling
+                  Pay with <span></span><span className="text-[#FF6B35]">Crypto</span> 
                 </h2>
                 <p className="text-gray-300 text-lg max-w-xl">
-                  With Cashwyre's Crypto4Cash, your crypto instantly becomes cash (NGN, GHS, ZAR...) you can spend anytime, anywhere across Africa.
+                  Spend your Crypto without selling
                 </p>
               </div>
-              <form className="flex-1 min-w-[320px] max-w-md w-full flex flex-col gap-2" onSubmit={e => e.preventDefault()}>
-                <label htmlFor="currency" className="text-gray-200 mb-1">Enter amount to pay</label>
-                <div className="flex w-full">
+              <form className="flex-1 min-w-[220px] max-w-md w-full flex flex-col gap-2" onSubmit={e => e.preventDefault()}>
+                <label htmlFor="currency" className="text-gray-500 mb-1">Enter amount to pay</label>
+                <div className="flex flex-col sm:flex-row w-full gap-2">
                   <select
                     id="currency"
-                    className="rounded-l-lg border border-gray-300 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
+                    className="w-full sm:w-auto rounded-lg sm:rounded-l-lg border border-gray-100 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
                     style={{ minWidth: 90 }}
                     defaultValue="NGN"
                   >
@@ -157,12 +174,11 @@ export default function Hero() {
                     max="400000"
                     step="100"
                     placeholder="1000"
-                    className="flex-1 border-t border-b border-gray-300 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
-                    style={{ borderLeft: 'none' }}
+                    className="w-full sm:w-auto flex-1 border-t border-b sm:border-t sm:border-b border-gray-300 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35] sm:border-l-0"
                   />
                   <button
                     type="submit"
-                    className="rounded-r-lg bg-[#FF6B35] text-white px-6 py-3 font-semibold hover:bg-[#FFA726] transition-colors border border-[#FF6B35] border-l-0"
+                    className="w-full sm:w-auto rounded-lg sm:rounded-r-lg bg-[#FF6B35] text-white px-6 py-3 font-semibold hover:bg-[#FFA726] transition-colors border border-[#FF6B35] sm:border-l-0"
                   >
                     Send
                   </button>

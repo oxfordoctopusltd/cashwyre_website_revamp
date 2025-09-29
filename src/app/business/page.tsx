@@ -6,37 +6,37 @@ import Image from "next/image"
 const businessServices = [
   {
     icon: Code,
-    title: "Payout service",
+    title: "Payout API",
     description: "Integrate with our RESTful APIs for seamless payouts, remittances, and transfers across Africa in local currencies. Focus on growth while we expertly manage your payment infrastructure.",
     color: "from-blue-500 to-cyan-500"
   },
   {
     icon: Shield,
-    title: "Bills payment",
+    title: "Bills payment API",
     description: "Our APIs make it easy to pay for utilities across Africa, including electricity bills, cable TV subscriptions, airtime, data plans, and more.",
     color: "from-green-500 to-emerald-500"
   },
   {
     icon: Globe,
-    title: "Crypto wallets",
+    title: "Crypto wallets API",
     description: "Whether you're building an online store to accept cryptocurrency payments, adding crypto wallets to your HRM solution for remote gig payments, or more—Cashwyre's API is the perfect solution for you.",
     color: "from-purple-500 to-pink-500"
   },
   {
     icon: CreditCard,
-    title: "Crypto4Cash",
+    title: "Crypto4Cash API",
     description: "We now receive payments in crypto as a business and have your bank account credited in local currencies in minutes—with our Offramp and Onramp APIs.",
     color: "from-orange-500 to-red-500"
   },
   {
     icon: Zap,
-    title: "Cashwyre Checkout",
+    title: "Crypto Onramp APIs",
     description: "Accept payments or donations on your website in just minutes, no coding required. Simply embed the Cashwyre Checkout script on your site or e-commerce checkout page and start getting paid instantly.",
     color: "from-yellow-500 to-orange-500"
   },
   {
     icon: TrendingUp,
-    title: "Cashwyre Widget",
+    title: "Crypto Offramp APIs",
     description: "Embed the Cashwyre Widget on your website to effortlessly receive donations from customers, friends, and loved ones. The widget appears neatly at the bottom corner (left or right, fully configurable) for a seamless giving experience.",
     color: "from-indigo-500 to-purple-500"
   }
@@ -82,6 +82,10 @@ const merchantServices = [
   {
     title: "Crypto4Cash",
     description: "Setup Crypto4Cash account to receive payments in crypto directly to your accounts in Fiat."
+  },
+  {
+    title: "Crypto4Cash",
+    description: "Setup Crypto4Cash account to receive payments in crypto directly to your accounts in Fiat."
   }
 ]
 
@@ -98,15 +102,15 @@ const checkoutWidget = [
 
 const businessAPIs = [
   {
-    title: "Payout service",
+    title: "Payout API",
     description: "Integrate with our RESTful APIs for seamless payouts, remittances, and transfers across Africa in local currencies. Focus on growth while we expertly manage your payment infrastructure."
   },
   {
-    title: "Bills payment",
+    title: "Bills payment API",
     description: "Our APIs make it easy to pay for utilities across Africa, including electricity bills, cable TV subscriptions, airtime, data plans, and more."
   },
   {
-    title: "Crypto wallets",
+    title: "Crypto wallets API",
     description: "Whether you're building an online store to accept cryptocurrency payments, adding crypto wallets to your HRM solution for remote gig payments, or more—Cashwyre's API is the perfect solution for you."
   },
   {
@@ -129,7 +133,7 @@ export default function Business() {
           Cashwyre for <span className="gradient-text">Business</span>
         </h1>
         <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-          Cashwyre for Business is built to help businesses, merchants, and developers accept and manage payments effortlessly. Our mission is to equip you with simple, powerful tools so you can focus on growing your business.
+          Cashwyre for Business helps businesses, merchants, and developers accept and manage payments with ease. We provide simple tools so you can focus on growth.
         </p>
         <motion.a
           href="https://business.cashwyre.com/signup"
@@ -139,7 +143,7 @@ export default function Business() {
           whileTap={{ scale: 0.95 }}
           className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300 inline-block"
         >
-          Get Started with Business APIs
+          Register as a Business
         </motion.a>
       </motion.section>
 
@@ -152,10 +156,10 @@ export default function Business() {
       >
         <div className="text-center mb-12">
           <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-            Core <span className="gradient-text">Services</span>
+            Core <span className="gradient-text"> Fintech Services</span>
           </h2>
           <p className="text-xl text-gray-400">
-            Everything you need to build amazing fintech products
+            Everything you need to build an amazing fintech products
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -279,7 +283,7 @@ export default function Business() {
         className="max-w-7xl mx-auto mb-20 text-center"
       >
         <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-          Power your business with our payment and subscription APIs
+          Build with Cashwyre APIs
         </h2>
         <p className="text-xl text-gray-300 mb-8">
           With our secure APIs, you can seamlessly offer payment services to your staff and customers.
@@ -303,7 +307,7 @@ export default function Business() {
         className="max-w-7xl mx-auto mb-20 text-center"
       >
         <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-          Businesses/ Products Leveraging Our Secure APIs
+          Our Customers
         </h2>
         <p className="text-xl text-gray-300 mb-12">
           Businesses seamlessly integrate with our secure APIs to build products and offer real-time wallet and payment services to their staff and customers.
@@ -337,8 +341,7 @@ export default function Business() {
               Ready to Transform Your Business?
             </h2>
             <p className="text-xl text-gray-300">
-              Join thousands of businesses already using Cashwyre to power their payments. 
-              Get started in minutes with our developer-friendly APIs.
+              Join existing Fintechs already leveraging Cashwyre APIs to power their business. Get started in minutes.
             </p>
             <div className="flex justify-center">
               <motion.a

@@ -12,7 +12,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Services", submenu: ["Retail users", "Merchants & Businesses"] },
+  { name: "Services", submenu: ["Retail users", "Businesses & Fintechs"] },
   { name: "Business", href: "/business" },
   { name: "About Us", href: "/about" },
   { name: "Support", href: "/support" },
@@ -20,7 +20,7 @@ const navItems: NavItem[] = [
 
 const submenuIcons: Record<string, any> = {
   "Retail users": Users,
-  "Merchants & Businesses": Building,
+  "Businesses & Fintechs": Building,
 }
 
 export default function FloatingNav() {

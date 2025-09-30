@@ -74,7 +74,7 @@ export default function IntroSection() {
               className="group"
             >
               <div className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-lg rounded-3xl p-8 border border-white/10 hover:border-[#FF6B35]/40 transition-all duration-500 h-full">
-                <div className="flex items-center gap-4 mb-8 justify-center">
+                <div className="flex items-center gap-4 mb-8 justify-start">
                   <div className="w-14 h-14 bg-gradient-to-br from-[#FF6B35] to-[#FF8E35] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                     <span className="text-2xl">👤</span>
                   </div>
@@ -110,7 +110,7 @@ export default function IntroSection() {
               className="group"
             >
               <div className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-lg rounded-3xl p-8 border border-white/10 hover:border-[#FFA726]/40 transition-all duration-500 h-full">
-                <div className="flex items-center gap-4 mb-8 justify-center">
+                <div className="flex items-center gap-4 mb-8 justify-start">
                   <div className="w-14 h-14 bg-gradient-to-br from-[#FFA726] to-[#FF8E35] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                     <span className="text-2xl">🏢</span>
                   </div>

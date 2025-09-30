@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.0",
+    "@tailwindcss/typography": "^0.5.19",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "framer-motion": "^10.16.0",

@@ -18,9 +18,9 @@ const footerSections = [
       { name: "About Us", href: "/about" },
       { name: "Support", href: "/support" },
       { name: "Get Started", href: "/get-started" },
-      { name: "Privacy policy", href: "https://cashwyre.io/privacy", external: true },
-      { name: "AML policy", href: "https://cashwyre.io/aml", external: true },
-      { name: "Terms & Condition", href: "https://cashwyre.io/terms", external: true },
+      { name: "Privacy policy", href: "/privacy" },
+      { name: "AML policy", href: "/aml" },
+      { name: "Terms & Condition", href: "/terms" },
     ]
   },
 ]
@@ -88,23 +88,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerSections[1].links.slice(0, 3).map((link) => (
                   <li key={link.name}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors text-sm"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {link.name}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors text-sm"
-                      >
-                        {link.name}
-                      </Link>
-                    )}
+                    <Link
+                      href={link.href}
+                      className="text-gray-400 hover:text-white transition-colors text-sm"
+                    >
+                      {link.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -115,23 +104,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 {footerSections[1].links.slice(3).map((link) => (
                   <li key={link.name}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors text-sm"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {link.name}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-gray-400 hover:text-white transition-colors text-sm"
-                      >
-                        {link.name}
-                      </Link>
-                    )}
+                    <Link
+                      href={link.href}
+                      className="text-gray-400 hover:text-white transition-colors text-sm"
+                    >
+                      {link.name}
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -15,7 +15,7 @@ export default function GetStarted() {
           Get <span className="gradient-text">Started</span>
         </h1>
         <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-          Download the Cashwyre app and start sending money across borders today
+          Download Cashwyre today and redefine the way you experience transactions.
         </p>
       </motion.div>
 

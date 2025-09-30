@@ -2,6 +2,8 @@
 import { motion } from "framer-motion"
 import { Shield, Eye, Clock, Globe, Zap, Ban, Coins, CheckCircle, Target, Heart, Users, Star } from "lucide-react"
 import DownloadSection from "@/components/sections/Download"
+import Features from "@/components/sections/Features"
+import Steps from "@/components/sections/Steps"
 import Image from "next/image"
 
 const values = [
@@ -31,62 +33,6 @@ const values = [
   }
 ]
 
-const features = [
-  {
-    icon: Shield,
-    title: "Safe and secure",
-    description: "Built to protect your money"
-  },
-  {
-    icon: Eye,
-    title: "Transparent",
-    description: "Straight forward regarding fees and exchange rates"
-  },
-  {
-    icon: Clock,
-    title: "Reliable",
-    description: "Your money arrives at destination on time"
-  },
-  {
-    icon: Globe,
-    title: "Global payment",
-    description: "Send money safely across borders worldwide"
-  },
-  {
-    icon: CheckCircle,
-    title: "Useful",
-    description: "Pay all your invoices and never miss a bill again"
-  },
-  {
-    icon: Coins,
-    title: "Low costs",
-    description: "Very affordable, thanks to the Bitcoin network"
-  }
-]
-
-const bitcoinBenefits = [
-  {
-    icon: Ban,
-    title: "No bank account needed",
-    description: "Operate without traditional banking requirements"
-  },
-  {
-    icon: Coins,
-    title: "Low transaction fees",
-    description: "Significantly lower costs compared to traditional methods"
-  },
-  {
-    icon: Zap,
-    title: "Fast payments",
-    description: "Quick transactions in your preferred currency"
-  },
-  {
-    icon: Shield,
-    title: "Secure network",
-    description: "Protected by robust blockchain technology"
-  }
-]
-
 export default function About() {
   return (
     <div className="min-h-screen pt-32 px-4 sm:px-6 lg:px-8">
@@ -101,7 +47,7 @@ export default function About() {
           About <span className="gradient-text">Cashwyre</span>
         </h1>
         <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-          Making Borderless Transactions Easy
+          From small businesses to large enterprises, we make payments effortless
         </p>
       </motion.section>
 
@@ -178,75 +124,10 @@ export default function About() {
       </motion.section>
 
       {/* Why Choose Cashwyre Section */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-7xl mx-auto mb-20"
-      >
-        <h2 className="text-4xl lg:text-5xl font-bold text-center mb-4">
-          Why choose <span className="gradient-text">Cashwyre?</span>
-        </h2>
-        <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
-          Experience the future of borderless payments with our cutting-edge platform
-        </p>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05 }}
-              className="glass-card p-6 space-y-4"
-            >
-              <div className="w-12 h-12 bg-gradient-to-r from-[#FF6B35] to-[#FFA726] rounded-xl flex items-center justify-center">
-                <feature.icon className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold">{feature.title}</h3>
-              <p className="text-gray-400 text-sm">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
+      <Features />
 
-      {/* Why Bitcoin Section */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-7xl mx-auto mb-20"
-      >
-        <div className="glass-card p-8 lg:p-12">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-              Why use <span className="gradient-text">Bitcoin</span> to transfer money?
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              Leveraging the power of blockchain technology for superior financial experiences
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {bitcoinBenefits.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center space-y-4"
-              >
-                <div className="w-16 h-16 mx-auto bg-gradient-to-r from-[#FF6B35] to-[#FFA726] rounded-2xl flex items-center justify-center">
-                  <benefit.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-lg font-semibold">{benefit.title}</h3>
-                <p className="text-gray-400 text-sm">{benefit.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
+      {/* Steps Section */}
+      <Steps />
 
       {/* Core Values Section */}
       <motion.section

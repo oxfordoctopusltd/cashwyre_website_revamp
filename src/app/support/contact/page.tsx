@@ -33,15 +33,37 @@ export default function Support() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    company: "",
-    phone: "",
-    subject: "",
     message: ""
   })
+  const [showModal, setShowModal] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
+    setIsSubmitting(true)
+    try {
+      const response = await fetch('/api/Subscriber', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        }),
+      })
+      if (response.ok) {
+        setShowModal(true)
+        setFormData({ name: "", email: "", message: "" })
+      } else {
+        console.error('Failed to submit form')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -170,16 +192,12 @@ export default function Support() {
               <h3 className="font-semibold mb-3 text-lg">Response Time</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Live Chat:</span>
-                  <span className="text-green-400">~5 minutes</span>
-                </div>
-                <div className="flex justify-between">
                   <span className="text-gray-400">Email:</span>
                   <span className="text-blue-400">Within 24 hours</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Phone:</span>
-                  <span className="text-purple-400">Immediate</span>
+                  <span className="text-gray-400">WhatsApp:</span>
+                  <span className="text-purple-400">Immediately</span>
                 </div>
               </div>
             </div>
@@ -228,55 +246,6 @@ export default function Support() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-300">Company</label>
-                    <div className="relative">
-                      <Building className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                      <input
-                        type="text"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:border-[#FF6B35] focus:outline-none transition-colors"
-                        placeholder="Company name"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-300">Phone</label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:border-[#FF6B35] focus:outline-none transition-colors"
-                        placeholder="+1 234 567 8900"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Subject *</label>
-                  <select
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#FF6B35] focus:outline-none transition-colors"
-                  >
-                    <option value="">Select inquiry type</option>
-                    <option value="technical">Technical Support</option>
-                    <option value="billing">Billing Question</option>
-                    <option value="partnership">Business Partnership</option>
-                    <option value="api">API Integration</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-300">Message *</label>
@@ -298,16 +267,38 @@ export default function Support() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 group"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 flex items-center justify-center space-x-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <span>Send Message</span>
-                  <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                  <Send className={`w-5 h-5 ${isSubmitting ? '' : 'group-hover:translate-x-1'} transition-transform`} />
                 </motion.button>
               </form>
             </div>
           </motion.div>
         </div>
       </motion.section>
+
+      {/* Success Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-2">Message Sent!</h3>
+            <p className="text-gray-600 mb-6">Thank you for contacting us. We'll get back to you soon.</p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-6 py-3 rounded-xl font-semibold text-white hover:shadow-lg transition-all duration-300"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   )

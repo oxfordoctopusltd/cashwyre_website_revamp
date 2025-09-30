@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, ChevronDown, Users, Building } from "lucide-react"
+import { Menu, X, ChevronDown, Users, Building, Mail, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -15,12 +15,14 @@ const navItems: NavItem[] = [
   { name: "Services", submenu: ["Retail users", "Businesses & Fintechs"] },
   { name: "Business", href: "/business" },
   { name: "About Us", href: "/about" },
-  { name: "Support", href: "/support" },
+  { name: "Support", submenu: ["Contact", "FAQ"] },
 ]
 
 const submenuIcons: Record<string, any> = {
   "Retail users": Users,
   "Businesses & Fintechs": Building,
+  "Contact": Mail,
+  "FAQ": MessageCircle,
 }
 
 export default function FloatingNav() {
@@ -94,21 +96,36 @@ export default function FloatingNav() {
                   className="absolute top-full left-0 mt-2 glass-card p-4 min-w-[290px] rounded-xl shadow-2xl border border-white/10"
                 >
                   {item.submenu.map((subItem) => {
-                    const IconComponent = submenuIcons[subItem]
+                    const IconComponent = submenuIcons[subItem];
                     let subPath = '';
-                    if (subItem === 'Retail users') subPath = 'retail-users';
-                    else if (subItem === 'Merchants & Businesses') subPath = 'businesses-fintechs';
-                    else subPath = subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-');
-                    return (
-                      <Link
-                        key={subItem}
-                        href={`/services/${subPath}`}
-                        className="flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-[#FF6B35] rounded-lg transition-all duration-200 mb-1 last:mb-0 group"
-                      >
-                        {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
-                        <span className="group-hover:text-white transition-colors">{subItem}</span>
-                      </Link>
-                    )
+                    if (item.name === 'Services') {
+                      if (subItem === 'Retail users') subPath = 'retail-users';
+                      else if (subItem === 'Businesses & Fintechs') subPath = 'businesses-fintechs';
+                      else subPath = subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-');
+                      return (
+                        <Link
+                          key={subItem}
+                          href={`/services/${subPath}`}
+                          className="flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-[#FF6B35] rounded-lg transition-all duration-200 mb-1 last:mb-0 group"
+                        >
+                          {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
+                          <span className="group-hover:text-white transition-colors">{subItem}</span>
+                        </Link>
+                      );
+                    } else if (item.name === 'Support') {
+                      subPath = subItem.toLowerCase();
+                      return (
+                        <Link
+                          key={subItem}
+                          href={`/support/${subPath}`}
+                          className="flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-[#FF6B35] rounded-lg transition-all duration-200 mb-1 last:mb-0 group"
+                        >
+                          {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
+                          <span className="group-hover:text-white transition-colors">{subItem}</span>
+                        </Link>
+                      );
+                    }
+                    return null;
                   })}
                 </motion.div>
               )}
@@ -178,22 +195,38 @@ export default function FloatingNav() {
                       <div className="text-gray-300 font-medium mb-2">{item.name}</div>
                       <div className="space-y-1 pl-4">
                         {item.submenu?.map((subItem) => {
-                          const IconComponent = submenuIcons[subItem]
+                          const IconComponent = submenuIcons[subItem];
                           let subPath = '';
-                          if (subItem === 'Retail users') subPath = 'retail-users';
-                          else if (subItem === 'Merchants & Businesses') subPath = 'businesses-fintechs';
-                          else subPath = subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-');
-                          return (
-                            <Link
-                              key={subItem}
-                              href={`/services/${subPath}`}
-                              className="flex items-center space-x-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#FF6B35] transition-all group"
-                              onClick={() => setIsOpen(false)}
-                            >
-                              {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
-                              <span className="group-hover:text-white transition-colors">{subItem}</span>
-                            </Link>
-                          )
+                          if (item.name === 'Services') {
+                            if (subItem === 'Retail users') subPath = 'retail-users';
+                            else if (subItem === 'Businesses & Fintechs') subPath = 'businesses-fintechs';
+                            else subPath = subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-');
+                            return (
+                              <Link
+                                key={subItem}
+                                href={`/services/${subPath}`}
+                                className="flex items-center space-x-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#FF6B35] transition-all group"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
+                                <span className="group-hover:text-white transition-colors">{subItem}</span>
+                              </Link>
+                            );
+                          } else if (item.name === 'Support') {
+                            subPath = subItem.toLowerCase();
+                            return (
+                              <Link
+                                key={subItem}
+                                href={`/support/${subPath}`}
+                                className="flex items-center space-x-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-[#FF6B35] transition-all group"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
+                                <span className="group-hover:text-white transition-colors">{subItem}</span>
+                              </Link>
+                            );
+                          }
+                          return null;
                         })}
                       </div>
                     </div>

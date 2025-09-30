@@ -2,15 +2,14 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, Download, QrCode } from "lucide-react"
-import Image from "next/image"
 
 const heroSlides = [
   {
-    tag: "Spend with Crypto",
+  tag: <span>Pay Instantly With<br className="hidden sm:inline" /> <span className="text-[#FF6B35]">Crypto</span></span>,
     slogan: "Cashwyre makes it effortless to use crypto for your everyday payments."
   },
   {
-    tag: "Get Your Dollar Card",
+    tag: <span>Get Your Dollar Card <br className="hidden sm:inline" /> <span className="text-[#FF6B35]">In Seconds</span></span>,
     slogan: [
       "Spend online anywhere in the world.",
       "Safe. Simple. Instant. Free."
@@ -18,14 +17,14 @@ const heroSlides = [
   },
   {
     tag: <span>Build With Cashwyre <br className="hidden md:inline" />APIs</span>,
-    slogan: <span>Build & Launch your apps in days with Cashwyre APIs. <a href="https://business.cashwyre.com/doc/api" className="text-[#FF6B35] hover:underline" target="_blank" rel="noopener noreferrer">Visit API Docs</a></span>
+  slogan: <span>Build & Launch your apps in days with Cashwyre APIs.<br /><a href="https://business.cashwyre.com/doc/api" className="text-[#FF6B35] hover:underline" target="_blank" rel="noopener noreferrer">Visit API Docs</a></span>
   },
   {
     tag: "Reach More Customers Globally",
     slogan: <span>One Paylink, global reach. Take payments from anywhere, get settled instantly. <a href="/business" className="text-[#FF6B35] hover:underline">Get Started</a></span>
   },
   {
-    tag: "Get Paid In Crypto",
+    tag: <span>Get Paid Instantly In <br className="hidden sm:inline" /> <span className="text-[#FF6B35]">Crypto</span></span>,
     slogan: [
       "Work globally, earn in crypto, and withdraw instantly in your local currency. Zero fees."
     ]
@@ -174,7 +173,7 @@ export default function Hero() {
                     max="400000"
                     step="100"
                     placeholder="1000"
-                    className="w-full sm:w-auto flex-1 border-t border-b sm:border-t sm:border-b border-gray-300 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35] sm:border-l-0"
+                    className="w-full sm:w-auto flex-1 rounded-md border-t border-b sm:border-t sm:border-b border-gray-300 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35] sm:border-l-0"
                   />
                   <button
                     type="submit"

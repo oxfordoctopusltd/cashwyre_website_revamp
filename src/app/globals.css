@@ -2,6 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+  /* FAQ custom styles */
+  .faq-block {
+    @apply bg-white/5 rounded-xl mb-4 shadow-lg transition-all duration-200 border border-white/10;
+  }
+  .faq-block .block-header {
+    @apply flex items-center cursor-pointer px-6 py-4 select-none;
+  }
+  .faq-block .block-header .header-icon {
+    @apply mr-4 text-2xl text-orange-400 font-bold transition-transform duration-200;
+  }
+  .faq-block .block-header .header-icon.open {
+    @apply text-orange-500 rotate-45;
+  }
+  .faq-block .block-header h3 {
+    @apply text-lg font-semibold text-orange-200 mb-0;
+  }
+  .faq-block .block-body {
+    @apply px-6 pb-4 pt-2 text-gray-200 text-base leading-relaxed transition-all duration-200;
+  }
+  .faq-block .block-body[style*="display: none"] {
+    @apply hidden;
+  }
+}
+
+
+@layer components {
+  /* Custom styles for privacy page rich content */
+  .privacy-content {
+    @apply prose prose-invert max-w-none text-left;
+  }
+  .privacy-content h1, .privacy-content h2, .privacy-content h3, .privacy-content h4, .privacy-content h5, .privacy-content h6 {
+    @apply text-orange-400 font-bold mt-8 mb-3;
+  }
+  .privacy-content p {
+    @apply mb-4 text-base leading-relaxed;
+  }
+  .privacy-content ul, .privacy-content ol {
+    @apply pl-6 mb-4;
+  }
+  .privacy-content li {
+    @apply mb-2;
+  }
+  .privacy-content table {
+    @apply w-full border-collapse my-6 rounded-lg overflow-hidden bg-white/10;
+  }
+  .privacy-content th, .privacy-content td {
+    @apply border border-white/20 px-4 py-2 text-left;
+  }
+  .privacy-content th {
+    @apply bg-orange-900/40 text-orange-300 font-semibold;
+  }
+  .privacy-content tr:nth-child(even) td {
+    @apply bg-white/5;
+  }
+  .privacy-content tr:hover td {
+    @apply bg-orange-900/20 transition;
+  }
+  .privacy-content a {
+    @apply text-orange-400 underline hover:text-orange-300 transition;
+  }
+  .privacy-content blockquote {
+    @apply border-l-4 border-orange-400 pl-4 italic text-orange-200 bg-white/5 py-2 my-4;
+  }
+}
+
+
 :root {
   --primary: #FF6B35;
   --secondary: #FFA726;

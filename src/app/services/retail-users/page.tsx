@@ -115,7 +115,7 @@ export default function RetailCustomers() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.05, y: -5 }}
-              className="glass-card p-6 space-y-4 hover:border-[#FF6B35]/50 transition-all duration-300"
+              className={`glass-card p-6 space-y-4 hover:border-[#FF6B35]/50 transition-all duration-300 ${index === features.length - 1 ? 'lg:col-start-2' : ''}`}
             >
               <div className={`w-16 h-16 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center`}>
                 <feature.icon className="w-8 h-8 text-white" />
@@ -178,7 +178,7 @@ export default function RetailCustomers() {
             <div className="space-y-6">
               <Shield className="w-16 h-16 text-[#FF6B35]" />
               <h2 className="text-4xl lg:text-5xl font-bold">
-                Enjoy Secured, <span className="gradient-text">Payment</span>
+                Enjoy Secured, <span className="gradient-text">Payments</span>
               </h2>
               <p className="text-lg text-gray-300">
                 Your payments are easy, instant, and secure. Enjoy seamless payments with Cashwyre.

@@ -1,28 +1,16 @@
 "use client"
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, Code, CreditCard, Globe, Zap, Shield, TrendingUp, Users } from "lucide-react"
+import { ArrowRight, Code, CreditCard, Globe, Zap, Shield, TrendingUp, Users, Receipt, Send, Link2, Wallet, User } from "lucide-react"
 import Image from "next/image"
 
 const businessServices = [
-  {
-    icon: ArrowRight,
-    title: "Transfer API",
-    description: "Seamless payouts and transfers across Africa in local currencies. We handle payments, you focus on growth.",
-    color: "from-blue-500 to-cyan-500"
-  },
-  {
-    icon: Shield,
-    title: "Bills Payment API",
-    description: "With our APIs, you can easily pay for utilities across Africa, electricity, Cable TV, airtime, data, and more.",
-    color: "from-green-500 to-emerald-500"
-  },
-  {
-    icon: Globe,
-    title: "Crypto Wallet API",
-    description: "From online stores accepting crypto to HRM platforms paying remote teams, Cashwyre's API powers it all.",
-    color: "from-purple-500 to-pink-500"
-  },
+  // {
+  //   icon: ArrowRight,
+  //   title: "Transfer API",
+  //   description: "Seamless payouts and transfers across Africa in local currencies. We handle payments, you focus on growth.",
+  //   color: "from-blue-500 to-cyan-500"
+  // },
   {
     icon: TrendingUp,
     title: "Crypto Onramp API",
@@ -36,10 +24,22 @@ const businessServices = [
     color: "from-yellow-500 to-orange-500"
   },
   {
+    icon: Globe,
+    title: "Crypto Wallet API",
+    description: "From online stores accepting crypto to HRM platforms paying remote teams, Cashwyre's API powers it all.",
+    color: "from-purple-500 to-pink-500"
+  },
+  {
     icon: CreditCard,
     title: "Dollar Card API",
     description: "Issue instant virtual dollar cards for global payments. We handle the card infrastructure, you focus on your customers.",
     color: "from-indigo-500 to-purple-500"
+  },
+  {
+    icon: Shield,
+    title: "Bills Payment API",
+    description: "With our APIs, you can easily pay for utilities across Africa, electricity, Cable TV, airtime, data, and more.",
+    color: "from-green-500 to-emerald-500"
   },
   {
     icon: Code,
@@ -67,33 +67,39 @@ const partners = [
 
 const merchantServices = [
   {
+    icon: Receipt,
     title: "Bills Payment",
-    description: "Easily pay your customers' bills across Africa from the Cashwyre business portal, electricity, TV, airtime, data, and more."
+    description: "Easily pay your customers' bills across Africa from the Cashwyre business portal, electricity, TV, airtime, data, and more.",
+    color: "from-green-500 to-emerald-500"
   },
   {
+    icon: Send,
     title: "Transfers",
-    description: "Easily transfer funds to beneficiaries' bank accounts or wallets in different countries, right from your Business Portal."
+    description: "Easily transfer funds to beneficiaries' bank accounts or wallets in different countries, right from your Business Portal.",
+    color: "from-blue-500 to-cyan-500"
   },
   {
+    icon: Link2,
     title: "Paylink API",
-    description: "With your personalized payment link, accept global payments and enjoy instant local currency settlement across Africa."
+    description: "With your personalized payment link, accept global payments and enjoy instant local currency settlement across Africa.",
+    color: "from-purple-500 to-pink-500"
   },
   {
+    icon: CreditCard,
     title: "Virtual Cards",
-    description: "Create virtual dollar cards for your team or customers directly from your business portal, shop online, pay subscriptions, and more."
+    description: "Create virtual dollar cards for your team or customers directly from your business portal, shop online, pay subscriptions, and more.",
+    color: "from-indigo-500 to-purple-500"
   },
   {
+    icon: Wallet,
     title: "Crypto Wallets",
-    description: "Create new crypto wallets for your team or customers and send cryptocurrency to your beneficiaries directly from the Portal."
+    description: "Create new crypto wallets for your team or customers and send cryptocurrency to your beneficiaries directly from the Portal.",
+    color: "from-orange-500 to-red-500"
   }
 ]
 
 const checkoutWidget = [
-  {
-    title: "Cashwyre Checkout/Widget",
-    description: "Scale your business globally with Cashwyre checkout/widget. It is ideal for businesses of any size."
-  },
-  {
+ {
     title: "Cashwyre Checkout ",
     description: "If you run an online store, use Cashwyre Checkout to accept payments in crypto or local currencies for your products and services."
   },
@@ -198,8 +204,12 @@ export default function Business() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="glass-card p-6 space-y-4"
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="glass-card p-6 space-y-4 hover:border-[#FF6B35]/50 transition-all duration-300"
                 >
+                  <div className={`w-12 h-12 bg-gradient-to-r ${service.color} rounded-xl flex items-center justify-center`}>
+                    <service.icon className="w-6 h-6 text-white" />
+                  </div>
                   <h3 className="text-xl font-semibold">{service.title}</h3>
                   <p className="text-gray-400">{service.description}</p>
                 </motion.div>
@@ -215,9 +225,19 @@ export default function Business() {
         className="max-w-7xl mx-auto mb-20"
       >
         <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            whileInView={{ opacity: 1, scaleX: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="w-3/4 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FFA726] mx-auto mb-8"
+          />
           <h2 className="text-4xl lg:text-5xl font-bold mb-4">
             Cashwyre <span className="gradient-text">Checkout/Widget</span>
           </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Scale your business globally with Cashwyre checkout/widget. It is ideal for businesses of any size.
+          </p>
         </div>
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {checkoutWidget.map((service, index) => (
@@ -234,12 +254,13 @@ export default function Business() {
           ))}
         </div>
         <div className="text-center">
-          <motion.button
+          <motion.a
+            href="/demo/checkout"
             whileHover={{ scale: 1.05 }}
-            className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+            className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300 inline-block"
           >
             Try Cashwyre Checkout/Widget
-          </motion.button>
+          </motion.a>
         </div>
       </motion.section>
 
@@ -249,23 +270,28 @@ export default function Business() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="max-w-7xl mx-auto mb-20 text-center"
+        className="max-w-7xl mx-auto mb-20"
       >
-        <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-          Build with Cashwyre APIs
-        </h2>
-        <p className="text-xl text-gray-300 mb-8">
-          With our secure APIs, you can seamlessly offer payment services to your staff and customers.
-        </p>
-        <motion.a
-          href="https://business.cashwyre.com/doc/api"
-          target="_blank"
-          rel="noopener noreferrer"
-          whileHover={{ scale: 1.05 }}
-          className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300 inline-block"
-        >
-          View API Documentation
-        </motion.a>
+        <div className="glass-card p-8 lg:p-12 text-center">
+          <div className="w-20 h-20 bg-gradient-to-r from-[#FF6B35] to-[#FFA726] rounded-3xl flex items-center justify-center mx-auto mb-6">
+            <Code className="w-10 h-10 text-white" />
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+            Build with <span className="gradient-text">Cashwyre APIs</span>
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            With our secure APIs, you can seamlessly offer payment services to your staff and customers.
+          </p>
+          <motion.a
+            href="https://business.cashwyre.com/doc/api"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300 inline-block"
+          >
+            View API Documentation
+          </motion.a>
+        </div>
       </motion.section>
 
       {/* Partners Section */}
@@ -275,24 +301,26 @@ export default function Business() {
         transition={{ duration: 0.8 }}
         className="max-w-7xl mx-auto mb-20 text-center"
       >
-        <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-          Our Customers
-        </h2>
-        <p className="text-xl text-gray-300 mb-12">
-          Businesses seamlessly integrate with our secure APIs to build products and offer real-time wallet and payment services to their staff and customers.
-        </p>
-        <div className="flex flex-wrap justify-center gap-8">
-          {partners.map((partner, index) => (
-            <motion.div
-              key={partner.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white/10 p-4 rounded-lg"
-            >
-              <Image src={partner.src} alt={`${partner.name} logo`} width={150} height={75} className="object-contain" />
-            </motion.div>
-          ))}
+        <div className="mx-auto w-full" style={{ maxWidth: '70%' }}>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+            Our Customers
+          </h2>
+          <p className="text-xl text-gray-300 mb-12">
+            Most recent Businesses integrated to Cashwyre For Business APIs.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            {partners.map((partner, index) => (
+              <motion.div
+                key={partner.name}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white/10 p-4 rounded-lg flex items-center justify-center min-h-[110px] min-w-[220px]"
+              >
+                <Image src={partner.src} alt={`${partner.name} logo`} width={150} height={75} className="object-contain object-center h-[75px] w-[150px] mx-auto" />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </motion.section>
 
@@ -320,7 +348,7 @@ export default function Business() {
                 whileHover={{ scale: 1.05 }}
                 className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 inline-block"
               >
-                Get Started
+                Get Started Now
               </motion.a>
             </div>
           </div>

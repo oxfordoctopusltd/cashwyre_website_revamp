@@ -100,8 +100,19 @@ export default function FloatingNav() {
                     let subPath = '';
                     if (item.name === 'Services') {
                       if (subItem === 'Retail users') subPath = 'retail-users';
-                      else if (subItem === 'Businesses & Fintechs') subPath = 'businesses-fintechs';
-                      else subPath = subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-');
+                      else if (subItem === 'Businesses & Fintechs') {
+                        // Link to /business instead of /services/businesses-fintechs
+                        return (
+                          <Link
+                            key={subItem}
+                            href="/business"
+                            className="flex items-center space-x-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-[#FF6B35] rounded-lg transition-all duration-200 mb-1 last:mb-0 group"
+                          >
+                            {IconComponent && <IconComponent className="w-4 h-4 text-[#FF6B35] group-hover:text-white transition-colors" />}
+                            <span className="group-hover:text-white transition-colors">{subItem}</span>
+                          </Link>
+                        );
+                      } else subPath = subItem.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-');
                       return (
                         <Link
                           key={subItem}

@@ -113,9 +113,12 @@ export default function FAQ() {
         transition={{ duration: 0.8 }}
         className="max-w-2xl mx-auto text-center"
       >
-        <h1 className="text-4xl lg:text-6xl font-bold mb-8">
+        <h1 className="text-4xl lg:text-6xl font-bold mb-2">
           Frequently Asked <span className="gradient-text">Questions</span>
         </h1>
+        <div className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
+          What our Customers frequently asked us
+        </div>
         <div className="glass-card p-8 text-left">
           {faqList.length === 0 && (
             <div className="text-gray-400">No FAQs available.</div>

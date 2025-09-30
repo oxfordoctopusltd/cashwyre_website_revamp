@@ -4,6 +4,7 @@ import "./globals.css"
 import { Providers } from "./providers"
 import ClientFloatingNav from "@/components/navigation/ClientFloatingNav"
 import Footer from "@/components/sections/Footer"
+import CashwyreWidget from "@/components/widget/CashwyreWidget"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -42,6 +43,7 @@ export default function RootLayout({
           <ClientFloatingNav />
           <main className="min-h-screen bg-[#0F0F0F]">{children}</main>
           <Footer />
+          <CashwyreWidget />
         </Providers>
       </body>
     </html>

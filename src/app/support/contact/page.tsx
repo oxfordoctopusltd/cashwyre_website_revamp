@@ -83,7 +83,7 @@ export default function Support() {
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
       >
         <h1 className="text-5xl lg:text-7xl font-bold mb-6">
-          Support <span className="gradient-text">Center</span>
+          Contact <span className="gradient-text">Us</span>
         </h1>
         <p className="text-xl text-gray-300 max-w-2xl mx-auto">
           Fast, reliable help when you need it. Choose your support channel.
@@ -176,15 +176,7 @@ export default function Support() {
                     <p className="font-medium">+1 (555) 123-4567</p>
                   </div>
                 </div> */}
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-                    <Building className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Office</p>
-                    <p className="font-medium">Lagos, Nigeria</p>
-                  </div>
-                </div>
+                
               </div>
             </div>
 

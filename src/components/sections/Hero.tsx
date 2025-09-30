@@ -133,7 +133,9 @@ export default function Hero() {
               </button>
 
               <div className="ml-2 text-sm text-[#E0E0E0] font-medium">
-                {currentTag + 1} / {heroSlides.length}
+                <span className="bg-primary text-white px-3 py-1 rounded-lg font-medium text-base shadow">
+                  {currentTag + 1} / {heroSlides.length}
+                </span>
               </div>
             </div>
           </div>

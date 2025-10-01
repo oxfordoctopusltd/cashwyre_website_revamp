@@ -13,7 +13,7 @@ const steps = [
   {
     icon: ShieldCheck,
     title: "Identity verification",
-    description: "Complete your Account verification process in Minutes.",
+    description: "Complete your Account verification process. Takes just 5 minutes",
     color: "from-green-500 to-emerald-500"
   },
   {

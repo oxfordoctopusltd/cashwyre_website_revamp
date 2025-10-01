@@ -137,6 +137,8 @@ export default function Business() {
         >
           Register as a Business
         </motion.a>
+        {/* Horizontal line, 70% width, margin top */}
+        <div className="w-[70%] h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#FFA726] mx-auto my-12" />
       </motion.section>
 
       {/* Services Section */}
@@ -149,22 +151,10 @@ export default function Business() {
         <div className="text-center mb-12">
           <div className="flex justify-center mb-8">
             <motion.button
-              onClick={() => setActiveTab('fintechs')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-8 py-4 rounded-l-2xl font-semibold text-lg transition-all duration-300 ${
-                activeTab === 'fintechs'
-                  ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFA726] text-white shadow-lg'
-                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-              }`}
-            >
-              FOR FINTECHS
-            </motion.button>
-            <motion.button
               onClick={() => setActiveTab('businesses')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-8 py-4 rounded-r-2xl font-semibold text-lg transition-all duration-300 ${
+              className={`px-8 py-4 rounded-l-2xl font-semibold text-lg transition-all duration-300 ${
                 activeTab === 'businesses'
                   ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFA726] text-white shadow-lg'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -172,7 +162,29 @@ export default function Business() {
             >
               FOR BUSINESSES
             </motion.button>
+            <motion.button
+              onClick={() => setActiveTab('fintechs')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-8 py-4 rounded-r-2xl font-semibold text-lg transition-all duration-300 ${
+                activeTab === 'fintechs'
+                  ? 'bg-gradient-to-r from-[#FF6B35] to-[#FFA726] text-white shadow-lg'
+                  : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              }`}
+            >
+              FOR FINTECHS
+            </motion.button>
           </div>
+          {/* Slogans under each tab */}
+          {activeTab === 'fintechs' ? (
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-6">
+              Whether you’re a startup or an enterprise business, our easy-to-use API infrastructure gives your app everything it needs to build and scale globally.
+            </p>
+          ) : (
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-6">
+              Whether you run a small business or work as a solopreneur, with the Cashwyre Business Portal, you can accept payments globally and serve customers with ease
+            </p>
+          )}
         </div>
         <motion.div
           key={activeTab}
@@ -182,22 +194,41 @@ export default function Business() {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {activeTab === 'fintechs'
-            ? businessServices.map((service, index) => (
-                <motion.div
-                  key={service.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="glass-card p-6 space-y-4 hover:border-[#FF6B35]/50 transition-all duration-300"
-                >
-                  <div className={`w-12 h-12 bg-gradient-to-r ${service.color} rounded-xl flex items-center justify-center`}>
-                    <service.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold">{service.title}</h3>
-                  <p className="text-gray-400">{service.description}</p>
-                </motion.div>
-              ))
+            ? businessServices.map((service, index) => {
+                // Map titles to URLs
+                const apiLinks = {
+                  'Crypto Onramp API': 'https://www.business.cashwyre.com/doc/api#onramp',
+                  'Crypto Offramp API': 'https://www.business.cashwyre.com/doc/api#offramp_api',
+                  'Crypto Wallet API': 'https://www.business.cashwyre.com/doc/api#get_crypto_assets_info',
+                  'Dollar Card API': 'https://www.business.cashwyre.com/doc/api#create_customer_card',
+                  'Bills Payment API': 'https://www.business.cashwyre.com/doc/api#getcabletv_info',
+                  'Paylink API': 'https://www.business.cashwyre.com/doc/api#cashwyre_inline',
+                } as const;
+                return (
+                  <motion.div
+                    key={service.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    className="glass-card p-6 space-y-4 hover:border-[#FF6B35]/50 transition-all duration-300"
+                  >
+                    <div className={`w-12 h-12 bg-gradient-to-r ${service.color} rounded-xl flex items-center justify-center`}>
+                      <service.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold">{service.title}</h3>
+                    <p className="text-gray-400">{service.description}</p>
+                    <a
+                      href={apiLinks[service.title as keyof typeof apiLinks]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-2 text-[#FF6B35] font-semibold hover:underline hover:text-[#FFA726] transition-colors"
+                    >
+                      Read more
+                    </a>
+                  </motion.div>
+                );
+              })
             : merchantServices.map((service, index) => (
                 <motion.div
                   key={service.title}
@@ -240,18 +271,37 @@ export default function Business() {
           </p>
         </div>
         <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {checkoutWidget.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass-card p-6 space-y-4"
-            >
-              <h3 className="text-xl font-semibold">{service.title}</h3>
-              <p className="text-gray-400">{service.description}</p>
-            </motion.div>
-          ))}
+          {checkoutWidget.map((service, index) => {
+            // Add read more links for each card
+            let readMoreUrl = '';
+            if (service.title.includes('Checkout')) {
+              readMoreUrl = 'https://www.business.cashwyre.com/doc/api#cashwyre_inline';
+            } else if (service.title.includes('Widget')) {
+              readMoreUrl = 'https://www.business.cashwyre.com/doc/api#cashwyre_widget';
+            }
+            return (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="glass-card p-6 space-y-4"
+              >
+                <h3 className="text-xl font-semibold">{service.title}</h3>
+                <p className="text-gray-400">{service.description}</p>
+                {readMoreUrl && (
+                  <a
+                    href={readMoreUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-2 text-[#FF6B35] font-semibold hover:underline hover:text-[#FFA726] transition-colors"
+                  >
+                    Read more
+                  </a>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
         <div className="text-center">
           <motion.a
@@ -259,7 +309,7 @@ export default function Business() {
             whileHover={{ scale: 1.05 }}
             className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300 inline-block"
           >
-            Try Live Checkout Demo
+            Live Demo
           </motion.a>
         </div>
       </motion.section>

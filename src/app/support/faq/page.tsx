@@ -1,4 +1,5 @@
 "use client";
+import Download from "@/components/sections/Download";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Plus, Minus } from "lucide-react";
@@ -140,6 +141,19 @@ export default function FAQ() {
               )}
             </div>
           ))}
+        </div>
+        {/* Contact Us Button */}
+        <div className="mt-8">
+          <a
+            href="/support/contact"
+            className="inline-block bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-3 rounded-xl font-semibold text-white hover:shadow-lg transition-all duration-300"
+          >
+            Got additional questions? Contact us
+          </a>
+        </div>
+        {/* Download Component */}
+        <div className="mt-8">
+          <Download />
         </div>
       </motion.div>
     </div>

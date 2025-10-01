@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight, Download, QrCode } from "lucide-react"
+import PayWithCryptoBox from "@/components/crypto/PayWithCryptoBox"
 
 const heroSlides = [
   {
@@ -147,48 +148,7 @@ export default function Hero() {
             transition={{ delay: 0.5 }}
             className="pt-6"
           >
-            <div className="glass-card rounded-2xl p-8 border border-white/10 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
-              <div className="flex-1 min-w-[300px]">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                  Pay with <span></span><span className="text-[#FF6B35]">Crypto</span> 
-                </h2>
-                <p className="text-gray-300 text-lg max-w-xl">
-                  Spend your Crypto without selling
-                </p>
-              </div>
-              <form className="flex-1 min-w-[220px] max-w-md w-full flex flex-col gap-2" onSubmit={e => e.preventDefault()}>
-                <label htmlFor="currency" className="text-gray-500 mb-1">Enter amount to pay</label>
-                <div className="flex flex-col sm:flex-row w-full gap-2">
-                  <select
-                    id="currency"
-                    className="w-full sm:w-auto rounded-lg sm:rounded-l-lg border border-gray-100 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35]"
-                    style={{ minWidth: 90 }}
-                    defaultValue="NGN"
-                  >
-                    <option value="NGN">NGN</option>
-                    <option value="GHS">GHS</option>
-                    <option value="ZAR">ZAR</option>
-                  </select>
-                  <input
-                    type="number"
-                    min="1000"
-                    max="400000"
-                    step="100"
-                    placeholder="1000"
-                    className="w-full sm:w-auto flex-1 rounded-md border-t border-b sm:border-t sm:border-b border-gray-300 bg-white text-black px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-[#FF6B35] sm:border-l-0"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto rounded-lg sm:rounded-r-lg bg-[#FF6B35] text-white px-6 py-3 font-semibold hover:bg-[#FFA726] transition-colors border border-[#FF6B35] sm:border-l-0"
-                  >
-                    Send
-                  </button>
-                </div>
-                <div className="text-gray-400 text-sm mt-1">
-                  ₦1,000.00 - ₦400,000.00
-                </div>
-              </form>
-            </div>
+            <PayWithCryptoBox />
           </motion.div>
         </motion.div>
       </div>

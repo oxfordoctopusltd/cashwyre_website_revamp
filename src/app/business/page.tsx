@@ -259,7 +259,7 @@ export default function Business() {
             whileHover={{ scale: 1.05 }}
             className="bg-gradient-to-r from-[#FF6B35] to-[#FFA726] px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-lg transition-all duration-300 inline-block"
           >
-            Try Cashwyre Checkout/Widget
+            Try Live Checkout Demo
           </motion.a>
         </div>
       </motion.section>

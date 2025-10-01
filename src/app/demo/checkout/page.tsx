@@ -53,14 +53,14 @@ export default function CheckoutDemo() {
           </div>
           <div className="flex flex-col items-center md:items-start">
             <span className="text-orange-400 font-semibold mb-2">Get Started</span>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center md:text-left">Start Accepting Payments In Just 30 Minutes.</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center md:text-left">Start Accepting Payments Globally in 10 Minutes.</h2>
             <a
               href="https://business.cashwyre.com/signup"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-8 py-3 rounded-lg transition inline-block"
             >
-              Create a free account
+              Register as a Business
             </a>
           </div>
         </div>

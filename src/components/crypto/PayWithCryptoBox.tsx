@@ -34,6 +34,7 @@ async function fetchCryptoInfo() {
 }
 
 interface Currency {
+  code: string;
   countryCode: string;
   name: string;
   symbol: string;
@@ -48,6 +49,9 @@ interface CryptoAsset {
   maximumSendAmount: number;
   numberOfDecimalPlaces: number;
   networks: any[];
+  assetType: string;
+  status: string;
+  imageURL: string;
 }
 
 export default function PayWithCryptoBox() {
@@ -62,6 +66,8 @@ export default function PayWithCryptoBox() {
   const [error, setError] = useState<string | null>(null);
   const [showCryptoSelection, setShowCryptoSelection] = useState(false);
   const [cryptoAssets, setCryptoAssets] = useState<CryptoAsset[]>([]);
+  const [showProceedModal, setShowProceedModal] = useState(false);
+  const [proceedData, setProceedData] = useState<any>(null);
 
   useEffect(() => {
     async function fetchCurrencies() {
@@ -83,6 +89,7 @@ export default function PayWithCryptoBox() {
             }
             return {
               ...c,
+              code: c.code || c.countryCode || '',
               countryCode: c.code || c.countryCode || '',
               symbol,
               minimumAmount: c.minimumReceiveAmount,
@@ -151,7 +158,7 @@ export default function PayWithCryptoBox() {
   };
 
 
-  // Modal for CryptoAssetSelection with blur, scroll, close on backdrop/Escape, and high z-index
+  // Modal for CryptoAssetSelection with full screen blur and sleek design
   const CryptoAssetModal = () => {
     // Close on Escape key
     useEffect(() => {
@@ -159,11 +166,10 @@ export default function PayWithCryptoBox() {
         if (e.key === 'Escape') setShowCryptoSelection(false);
       };
       window.addEventListener('keydown', handleKeyDown);
-      return () => window.removeEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
     }, []);
-
-    // Modal top offset (e.g. 80px for header)
-    const modalTop = 80;
 
     return (
       <div
@@ -173,73 +179,203 @@ export default function PayWithCryptoBox() {
           left: 0,
           width: '100vw',
           height: '100vh',
-          zIndex: 5000,
+          zIndex: 2147483647, // Maximum possible z-index
           display: 'flex',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           justifyContent: 'center',
-          overflowY: 'auto',
+          background: 'rgba(0, 0, 0, 0.85)', // Semi-transparent dark overlay
+          backdropFilter: 'blur(8px)',
         }}
+        onClick={() => setShowCryptoSelection(false)}
       >
-        {/* Blurred and dark overlay, click to close */}
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            background: 'rgba(20,20,20,0.7)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
-            zIndex: 5001,
-            cursor: 'pointer',
-          }}
+        {/* Close button */}
+        <button
           onClick={() => setShowCryptoSelection(false)}
-        />
-        {/* Modal content (not transparent) */}
+          style={{
+            position: 'absolute',
+            top: 24,
+            right: 24,
+            zIndex: 2147483647,
+            background: '#FF6B35',
+            border: 'none',
+            color: 'white',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            padding: '8px 16px',
+            borderRadius: '8px',
+          }}
+        >
+          Close X
+        </button>
+        {/* Modal content */}
         <div
           style={{
             position: 'relative',
-            zIndex: 5002,
-            background: '#18181b',
-            borderRadius: '1rem',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
-            maxWidth: '95vw',
+            background: 'linear-gradient(135deg, #2a2a2e 0%, #1e1e22 100%)',
+            borderRadius: '16px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+            width: '100%',
+            maxWidth: 540,
+            minWidth: 320,
+            margin: '0 16px',
             maxHeight: '90vh',
             overflowY: 'auto',
-            padding: '0',
-            marginTop: modalTop,
-            marginBottom: 32,
           }}
           onClick={e => e.stopPropagation()}
         >
-          {/* Close button */}
-          <button
-            onClick={() => setShowCryptoSelection(false)}
-            style={{
-              position: 'absolute',
-              top: 12,
-              right: 16,
-              zIndex: 10,
-              background: 'transparent',
-              border: 'none',
-              color: '#fff',
-              fontSize: 28,
-              cursor: 'pointer',
-              lineHeight: 1,
-              padding: 0,
-            }}
-            aria-label="Close"
-          >
-            ×
-          </button>
           <CryptoAssetSelection
             cryptoAssets={cryptoAssets}
-            selectedCurrency={selectedCurrency}
-            amount={amount}
-            currencySymbol={currencySymbol}
-            onBack={() => setShowCryptoSelection(false)}
+            currencies={currencies}
+            initialCurrencyCode={selectedCurrencyObj?.code}
+            initialReceiveAmount={amount}
+            onProceed={(data) => {
+              setProceedData(data);
+              setShowCryptoSelection(false);
+              setShowProceedModal(true);
+            }}
+            onClose={() => setShowCryptoSelection(false)}
           />
+        </div>
+      </div>
+    );
+  };
+
+  // Demo modal shown after clicking Proceed in CryptoAssetSelection
+  const ProceedModal = () => {
+    useEffect(() => {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setShowProceedModal(false);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }, []);
+
+    const summary = proceedData || {};
+
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 2147483647,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'rgba(0, 0, 0, 0.85)',
+          backdropFilter: 'blur(8px)',
+        }}
+        onClick={() => setShowProceedModal(false)}
+      >
+        <button
+          onClick={() => setShowProceedModal(false)}
+          style={{
+            position: 'absolute',
+            top: 24,
+            right: 24,
+            zIndex: 2147483647,
+            background: '#FF6B35',
+            border: 'none',
+            color: 'white',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            padding: '8px 16px',
+            borderRadius: '8px',
+          }}
+        >
+          Close X
+        </button>
+        <div
+          style={{
+            position: 'relative',
+            background: 'linear-gradient(135deg, #2a2a2e 0%, #1e1e22 100%)',
+            borderRadius: '16px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+            width: '100%',
+            maxWidth: 540,
+            minWidth: 320,
+            margin: '0 16px',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+          }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="p-8 text-white">
+            <h2 className="text-2xl font-bold mb-2">Confirm Crypto4Cash</h2>
+            <p className="text-gray-400 mb-6">This is a demo confirmation modal. We'll update the flow here later.</p>
+
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span className="text-gray-400">Crypto Asset</span>
+                <span className="font-semibold">{summary.cryptoAsset?.name || '—'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Chain</span>
+                <span className="font-semibold">{summary.network?.name || '—'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Receive Currency</span>
+                <span className="font-semibold">{summary.currency?.name} ({summary.currency?.code})</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Receive Amount</span>
+                <span className="font-semibold">{summary.receiveAmount || '—'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Crypto Amount</span>
+                <span className="font-semibold">{summary.cryptoAmount || '—'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">Exchange Rate</span>
+                <span className="font-semibold">{summary.exchangeRate || '—'}</span>
+              </div>
+            </div>
+
+            <div className="flex space-x-4 mt-8">
+              <button
+                onClick={() => {
+                  setShowProceedModal(false);
+                  setShowCryptoSelection(true);
+                }}
+                style={{
+                  width: '30%',
+                  background: '#2a2a2a',
+                  color: 'white',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  border: '1px solid #374151',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                }}
+              >
+                Back
+              </button>
+              <button
+                onClick={() => setShowProceedModal(false)}
+                style={{
+                  width: '70%',
+                  background: 'linear-gradient(135deg, #FF6B35 0%, #FFA726 100%)',
+                  color: 'white',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(255, 107, 53, 0.3)',
+                }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -267,8 +403,8 @@ export default function PayWithCryptoBox() {
   return (
     <>
       {showCryptoSelection && <CryptoAssetModal />}
-      <div className={showCryptoSelection ? "filter blur-sm pointer-events-none select-none" : ""}>
-        <div className="glass-card rounded-2xl p-8 border border-white/10 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
+      {showProceedModal && <ProceedModal />}
+      <div className="glass-card rounded-2xl p-8 border border-white/10 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
       <div className="flex-1 min-w-[300px]">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
           Pay with <span className="text-[#FF6B35]">Crypto</span>
@@ -315,7 +451,6 @@ export default function PayWithCryptoBox() {
           {selectedCurrencyObj.symbol}{selectedCurrencyObj.minimumAmount.toLocaleString()} - {selectedCurrencyObj.symbol}{selectedCurrencyObj.maximumAmount.toLocaleString()}
         </div>
       </div>
-        </div>
       </div>
     </>
   );

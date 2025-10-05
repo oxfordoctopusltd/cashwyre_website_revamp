@@ -1,6 +1,7 @@
+// components/crypto/PayWithCryptoBox.tsx
 "use client";
 import React, { useEffect, useState } from "react";
-import CryptoAssetSelection from "./CryptoAssetSelection";
+import { useRouter } from 'next/navigation';
 
 // API functions
 async function fetchCurrenciesProxy() {
@@ -55,6 +56,7 @@ interface CryptoAsset {
 }
 
 export default function PayWithCryptoBox() {
+  const router = useRouter();
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [selectedCurrency, setSelectedCurrency] = useState<string>("");
   const [amount, setAmount] = useState("");
@@ -66,8 +68,6 @@ export default function PayWithCryptoBox() {
   const [error, setError] = useState<string | null>(null);
   const [showCryptoSelection, setShowCryptoSelection] = useState(false);
   const [cryptoAssets, setCryptoAssets] = useState<CryptoAsset[]>([]);
-  const [showProceedModal, setShowProceedModal] = useState(false);
-  const [proceedData, setProceedData] = useState<any>(null);
 
   useEffect(() => {
     async function fetchCurrencies() {
@@ -92,8 +92,8 @@ export default function PayWithCryptoBox() {
               code: c.code || c.countryCode || '',
               countryCode: c.code || c.countryCode || '',
               symbol,
-              minimumAmount: c.minimumReceiveAmount,
-              maximumAmount: c.maximumReceiveAmount,
+              minimumAmount: c.minimumReceiveAmount || c.minimumAmount || 1000,
+              maximumAmount: c.maximumReceiveAmount || c.maximumAmount || 400000,
             };
           });
           setCurrencies(mapped);
@@ -139,24 +139,13 @@ export default function PayWithCryptoBox() {
   const handleSend = async () => {
     if (!showSend) return;
     
-    setLoading(true);
-    try {
-      const cryptoInfo = await fetchCryptoInfo();
-      console.log('Crypto Info API Response:', cryptoInfo); // Debug log
-      if (cryptoInfo && cryptoInfo.data && cryptoInfo.data.cryptoAssets) {
-        setCryptoAssets(cryptoInfo.data.cryptoAssets);
-        setShowCryptoSelection(true);
-      } else {
-        setError("Invalid crypto assets response format");
-      }
-    } catch (err: any) {
-      console.error('Error fetching crypto info:', err);
-      setError("Failed to load crypto assets");
-    } finally {
-      setLoading(false);
-    }
+    // Navigate to crypto4cash page with pre-filled amount and currency
+    const params = new URLSearchParams();
+    if (selectedCurrency) params.append('currency', selectedCurrency);
+    if (amount) params.append('amount', amount);
+    
+    router.push(`/crypto4cash?${params.toString()}`);
   };
-
 
   // Modal for CryptoAssetSelection with full screen blur and sleek design
   const CryptoAssetModal = () => {
@@ -183,8 +172,7 @@ export default function PayWithCryptoBox() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'rgba(0, 0, 0, 0.85)', // Semi-transparent dark overlay
-          backdropFilter: 'blur(8px)',
+          background: '#000000', // Completely opaque black
         }}
         onClick={() => setShowCryptoSelection(false)}
       >
@@ -224,157 +212,18 @@ export default function PayWithCryptoBox() {
           }}
           onClick={e => e.stopPropagation()}
         >
-          <CryptoAssetSelection
-            cryptoAssets={cryptoAssets}
-            currencies={currencies}
-            initialCurrencyCode={selectedCurrencyObj?.code}
-            initialReceiveAmount={amount}
-            onProceed={(data) => {
-              setProceedData(data);
-              setShowCryptoSelection(false);
-              setShowProceedModal(true);
-            }}
-            onClose={() => setShowCryptoSelection(false)}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  // Demo modal shown after clicking Proceed in CryptoAssetSelection
-  const ProceedModal = () => {
-    useEffect(() => {
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') setShowProceedModal(false);
-      };
-      window.addEventListener('keydown', handleKeyDown);
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-      };
-    }, []);
-
-    const summary = proceedData || {};
-
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          zIndex: 2147483647,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'rgba(0, 0, 0, 0.85)',
-          backdropFilter: 'blur(8px)',
-        }}
-        onClick={() => setShowProceedModal(false)}
-      >
-        <button
-          onClick={() => setShowProceedModal(false)}
-          style={{
-            position: 'absolute',
-            top: 24,
-            right: 24,
-            zIndex: 2147483647,
-            background: '#FF6B35',
-            border: 'none',
-            color: 'white',
-            fontSize: '14px',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            padding: '8px 16px',
-            borderRadius: '8px',
-          }}
-        >
-          Close X
-        </button>
-        <div
-          style={{
-            position: 'relative',
-            background: 'linear-gradient(135deg, #2a2a2e 0%, #1e1e22 100%)',
-            borderRadius: '16px',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-            width: '100%',
-            maxWidth: 540,
-            minWidth: 320,
-            margin: '0 16px',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-          }}
-          onClick={e => e.stopPropagation()}
-        >
-          <div className="p-8 text-white">
-            <h2 className="text-2xl font-bold mb-2">Confirm Crypto4Cash</h2>
-            <p className="text-gray-400 mb-6">This is a demo confirmation modal. We'll update the flow here later.</p>
-
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-400">Crypto Asset</span>
-                <span className="font-semibold">{summary.cryptoAsset?.name || '—'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Chain</span>
-                <span className="font-semibold">{summary.network?.name || '—'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Receive Currency</span>
-                <span className="font-semibold">{summary.currency?.name} ({summary.currency?.code})</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Receive Amount</span>
-                <span className="font-semibold">{summary.receiveAmount || '—'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Crypto Amount</span>
-                <span className="font-semibold">{summary.cryptoAmount || '—'}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400">Exchange Rate</span>
-                <span className="font-semibold">{summary.exchangeRate || '—'}</span>
-              </div>
-            </div>
-
-            <div className="flex space-x-4 mt-8">
-              <button
-                onClick={() => {
-                  setShowProceedModal(false);
-                  setShowCryptoSelection(true);
-                }}
-                style={{
-                  width: '30%',
-                  background: '#2a2a2a',
-                  color: 'white',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: '1px solid #374151',
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                }}
-              >
-                Back
-              </button>
-              <button
-                onClick={() => setShowProceedModal(false)}
-                style={{
-                  width: '70%',
-                  background: 'linear-gradient(135deg, #FF6B35 0%, #FFA726 100%)',
-                  color: 'white',
-                  padding: '12px 16px',
-                  borderRadius: '12px',
-                  border: 'none',
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(255, 107, 53, 0.3)',
-                }}
-              >
-                Confirm
-              </button>
-            </div>
+          {/* We'll use the Crypto4Cash flow instead of the modal selection */}
+          <div className="p-8 text-center text-white">
+            <h3 className="text-xl font-bold mb-4">Redirecting to Crypto4Cash</h3>
+            <p className="text-gray-400 mb-4">
+              You will be redirected to the complete Crypto4Cash flow to finish your transaction.
+            </p>
+            <button
+              onClick={() => setShowCryptoSelection(false)}
+              className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-lg"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -392,7 +241,6 @@ export default function PayWithCryptoBox() {
   // Find the selected currency object
   const selectedCurrencyObj = currencies.find((c: any) => c.countryCode === selectedCurrency);
   const hasAllFields = selectedCurrencyObj &&
-    typeof selectedCurrencyObj.symbol === 'string' && selectedCurrencyObj.symbol.length > 0 &&
     typeof selectedCurrencyObj.minimumAmount === 'number' && selectedCurrencyObj.minimumAmount > 0 &&
     typeof selectedCurrencyObj.maximumAmount === 'number' && selectedCurrencyObj.maximumAmount > 0;
 
@@ -403,7 +251,6 @@ export default function PayWithCryptoBox() {
   return (
     <>
       {showCryptoSelection && <CryptoAssetModal />}
-      {showProceedModal && <ProceedModal />}
       <div className="glass-card rounded-2xl p-8 border border-white/10 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
       <div className="flex-1 min-w-[300px]">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">

@@ -1,522 +1,509 @@
-"use client";
-import React, { useState, useEffect } from "react";
+// components/crypto4cash/Crypto4CashFlow.tsx
+'use client';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useCrypto4CashStore } from '@/stores/crypto4cash-store';
+import { crypto4CashApi } from '@/lib/crypto4cash-api';
+import { Currency, CryptoAsset } from '@/lib/types';
+import Step1AssetSelection from '@/components/crypto4cash/steps/Step1AssetSelection';
+import Step2BankAccount from '@/components/crypto4cash/steps/Step2BankAccount';
+import Step3ContactInfo from '@/components/crypto4cash/steps/Step3ContactInfo';
+import Step4Summary from '@/components/crypto4cash/steps/Step4Summary';
 
-interface Network {
-  code: string;
-  name: string;
-  description: string;
-  // Optional fields from backend that may contain the required option code
-  optionCode?: string;
-  sendCryptoAssetOptionCode?: string;
-  SendCryptoAssetOptionCode?: string;
-}
+export default function Crypto4CashFlow() {
+  const searchParams = useSearchParams();
+  const initialCurrency = searchParams.get('currency');
+  const initialAmount = searchParams.get('amount');
 
-interface CryptoAsset {
-  code: string;
-  name: string;
-  minimumSendAmount: number;
-  maximumSendAmount: number;
-  numberOfDecimalPlaces: number;
-  networks: Network[];
-  assetType: string;
-  status: string;
-  imageURL: string;
-}
+  const {
+    currentStep,
+    selectedCryptoAsset,
+    selectedNetwork,
+    selectedCurrency,
+    receiveAmount,
+    cryptoAmount,
+    email,
+    firstName,
+    lastName,
+    phoneNumber,
+    createCashwyreAccount,
+    userName,
+    password,
+    selectedBank,
+    accountNumber,
+    accountName,
+    transactionSummary,
+    timeLeft,
+    setStep1Data,
+    setStep2Data,
+    setStep3Data,
+    setTransactionSummary,
+    setCurrentStep,
+    setLoading,
+    setTimeLeft,
+    resetForm,
+  } = useCrypto4CashStore();
 
-interface Currency {
-  code: string;
-  name: string;
-  symbol: string;
-  minimumAmount: number;
-  maximumAmount: number;
-}
+  const [currencies, setCurrencies] = useState<Currency[]>([]);
+  const [cryptoAssets, setCryptoAssets] = useState<CryptoAsset[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [infoReceiveCurrencies, setInfoReceiveCurrencies] = useState<any[]>([]);
 
-interface CryptoAssetSelectionProps {
-  cryptoAssets: CryptoAsset[];
-  currencies: Currency[];
-  onProceed: (data: any) => void;
-  onClose: () => void;
-  // Preselected values coming from "Pay with Crypto"
-  initialCurrencyCode?: string;
-  initialReceiveAmount?: string | number;
-}
-
-// API function to calculate crypto amount (fallback)
-async function calculateCryptoAmount(fiatAmount: number, fiatCurrency: string, cryptoAsset: string) {
-  const res = await fetch("/api/crypto/calculateCryptoAmount", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fiatAmount, fiatCurrency, cryptoAsset }),
-  });
-  if (!res.ok) throw new Error("Failed to calculate crypto amount (fallback)");
-  return res.json();
-}
-
-// API function to get fiat rate for crypto (primary)
-async function getCryptoFiatRate(sendCryptoAssetOptionCode: string, receiveCurrency: string, receiveAmountParam: number) {
-  const res = await fetch("/api/crypto/getCryptoFiatRate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      SendCryptoAssetOptionCode: sendCryptoAssetOptionCode,
-      ReceiveCurrency: receiveCurrency,
-      ReceiveAmount: receiveAmountParam,
-      BusinessCode: null,
-      AppId: "67dc443a-d148-800a-ba3c-077f41b637a0",
-      RequestId: `B${Math.random().toString(36).substring(2, 10)}`
-    })
-  });
-  if (!res.ok) throw new Error("Failed to call getCryptoFiatRate");
-  return res.json();
-}
-
-export default function CryptoAssetSelection({
-  cryptoAssets,
-  currencies,
-  onProceed,
-  onClose,
-  initialCurrencyCode,
-  initialReceiveAmount,
-}: CryptoAssetSelectionProps) {
-  const [selectedCryptoAsset, setSelectedCryptoAsset] = useState<CryptoAsset | null>(null);
-  const [selectedNetwork, setSelectedNetwork] = useState<Network | null>(null);
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(null);
-  const [receiveAmount, setReceiveAmount] = useState<string>("");
-  const [cryptoAmount, setCryptoAmount] = useState<string>("");
-  const [exchangeRate, setExchangeRate] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-
-  // Set defaults when component loads
+  // Load initial data
   useEffect(() => {
-    // Set default crypto asset and chain from backend list
-    if (cryptoAssets.length > 0) {
-      const defaultCrypto = cryptoAssets[0];
-      setSelectedCryptoAsset(defaultCrypto);
-      if (defaultCrypto.networks && defaultCrypto.networks.length > 0) {
-        setSelectedNetwork(defaultCrypto.networks[0]);
-      }
-    }
+    loadInitialData();
+  }, []);
 
-    // If we have a preselected currency from PayWithCrypto, use it
-    if (currencies.length > 0) {
-      let currencyToSet: Currency | undefined;
-      if (initialCurrencyCode) {
-        currencyToSet = currencies.find((c) => c.code === initialCurrencyCode);
-      }
-      if (!currencyToSet) {
-        currencyToSet = currencies[0];
-      }
-      if (currencyToSet) setSelectedCurrency(currencyToSet);
-    }
-
-    // Prepopulate receive amount if provided
-    if (typeof initialReceiveAmount !== 'undefined' && initialReceiveAmount !== null) {
-      setReceiveAmount(String(initialReceiveAmount));
-    }
-  }, [cryptoAssets, currencies, initialCurrencyCode, initialReceiveAmount]);
-
-  // Calculate rates when inputs change
+  // Always start at Step 1 on mount to ensure the user follows the process
   useEffect(() => {
-    if (selectedCryptoAsset && selectedCurrency && receiveAmount) {
-      calculateRate();
-    }
-  }, [selectedCryptoAsset, selectedCurrency, selectedNetwork, receiveAmount]);
+    setCurrentStep(1);
+  }, []);
 
-  const calculateRate = async () => {
-    if (!selectedCryptoAsset || !selectedCurrency || !receiveAmount || parseFloat(receiveAmount) <= 0) {
-      return;
+  // Set initial values from query params
+  useEffect(() => {
+    if (initialCurrency && currencies.length > 0) {
+      const currency = currencies.find(c => c.code === initialCurrency || c.countryCode === initialCurrency);
+      if (currency) {
+        setStep1Data({ selectedCurrency: currency });
+      }
     }
     
-    setLoading(true);
+    if (initialAmount) {
+      setStep1Data({ receiveAmount: initialAmount });
+    }
+    
+    // If selectedCurrency exists but has no countryBanks, try to refresh from currencies list
+    if (selectedCurrency && currencies.length > 0 && (!selectedCurrency.countryBanks || selectedCurrency.countryBanks.length === 0)) {
+      const refreshed = currencies.find((c: any) => c.code === selectedCurrency.code || c.countryCode === selectedCurrency.countryCode);
+      if (refreshed && (refreshed.countryBanks && refreshed.countryBanks.length > 0)) {
+        setStep1Data({ selectedCurrency: refreshed });
+      }
+    }
+  }, [currencies, initialCurrency, initialAmount, selectedCurrency]);
+
+  const loadInitialData = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
-      const amount = parseFloat(receiveAmount);
-      // Resolve the network/asset option code expected by backend
-      const primaryOptionCode = resolveOptionCode(selectedCryptoAsset, selectedNetwork);
-      if (!primaryOptionCode) {
-        console.warn("No valid SendCryptoAssetOptionCode could be resolved from asset/network.");
-        setLoading(false);
-        return;
-      }
-      let response = await getCryptoFiatRate(primaryOptionCode, selectedCurrency.code, amount);
+      const [currenciesRes, cryptoInfoRes] = await Promise.all([
+        crypto4CashApi.getCrypto4CashCurrencies(),
+        crypto4CashApi.getCrypto4CashInfo(),
+      ]);
 
-      // Fallback retry: try a composed code like "ASSET-NETWORK" if backend returns no data
-      if ((!response || !response.data) && selectedCryptoAsset && selectedNetwork) {
-        const composed = `${selectedCryptoAsset.code}-${selectedNetwork.code}`;
-        if (composed !== primaryOptionCode) {
-          try {
-            console.debug("Retrying getCryptoFiatRate with composed option code:", composed);
-            response = await getCryptoFiatRate(composed, selectedCurrency.code, amount);
-          } catch (e) {
-            console.warn("Fallback attempt failed:", e);
+      if (currenciesRes.success) {
+        // Helper: convert a container (array or object map) to an array of bank entries
+        const toRawArray = (container: any): any[] => {
+          if (Array.isArray(container)) return container;
+          if (container && typeof container === 'object') return Object.values(container);
+          return [];
+        };
+
+        // Build bank lookup maps from getCrypto4CashInfo.receiveCurrencies for hydration
+        const infoPayload: any = (cryptoInfoRes as any)?.data ?? (cryptoInfoRes as any)?.Data ?? cryptoInfoRes;
+        const receiveCurrencies: any[] = toRawArray(infoPayload?.receiveCurrencies || infoPayload?.ReceiveCurrencies || []);
+        setInfoReceiveCurrencies(receiveCurrencies);
+        const banksByCountryCode = new Map<string, any[]>();
+        const banksByCurrencyCode = new Map<string, any[]>();
+        const normalizeBanks = (banksContainer: any, countryCodeFallback: string) => {
+          return toRawArray(banksContainer)
+            .map((bank: any) => {
+              if (typeof bank === 'object' && bank !== null && !Array.isArray(bank)) {
+                // nested object map -> flatten values
+                return Object.values(bank);
+              }
+              return bank;
+            })
+            .flat()
+            .map((b: any) => ({
+              code: b?.code !== undefined
+                ? String(b.code)
+                : b?.bankCode !== undefined
+                ? String(b.bankCode)
+                : b?.Code !== undefined
+                ? String(b.Code)
+                : b?.bank_code !== undefined
+                ? String(b.bank_code)
+                : '',
+              name: b?.name ?? b?.bankName ?? b?.Name ?? b?.bank_name ?? '',
+              type: b?.type ?? 'savings',
+              accountLookupRequired:
+                typeof b?.accountLookupRequired === 'boolean'
+                  ? b.accountLookupRequired
+                  : typeof b?.requiresAccountLookup === 'boolean'
+                  ? b.requiresAccountLookup
+                  : true,
+              country: countryCodeFallback,
+            }))
+            .filter((b: any) => b.code && b.name)
+            .sort((a: any, b: any) => a.name.localeCompare(b.name));
+        };
+        receiveCurrencies.forEach((rc: any) => {
+          const cc = rc?.countryCode || rc?.CountryCode || '';
+          const cur = rc?.currencyCode || rc?.CurrencyCode || rc?.code || '';
+          const rcBanksRaw = rc?.countryBanks || rc?.CountryBanks || rc?.banks || rc?.Banks || rc?.bankList || rc?.BankList || rc?.supportedBanks || rc?.availableBanks || rc?.bank || rc?.bank_list || rc?.Bank || [];
+          const normalizedBanks = normalizeBanks(rcBanksRaw, cc);
+          if (cc) banksByCountryCode.set(cc, normalizedBanks);
+          if (cur) banksByCurrencyCode.set(cur, normalizedBanks);
+        });
+
+        // Debug: inspect raw bank-related keys from API response
+        currenciesRes.data.forEach((c: any) => {
+          const bankishKeys = Object.keys(c || {}).filter((k) => /bank/i.test(k));
+          console.log('Raw currency bankish keys for', c.code || c.countryCode, bankishKeys);
+        });
+
+        const mappedCurrencies = currenciesRes.data.map((c: any) => {
+          const code = c.code || c.currencyCode || '';
+          const countryCode = (c.countryCode && String(c.countryCode).length === 2)
+            ? c.countryCode
+            : (c.countrySymbol || c.country || c.countryCode || c.code || '');
+
+          // Normalize bank lists from various possible keys and object containers
+          const selfBanks = (
+            toRawArray(
+              c.countryBanks || c.banks || c.bankList || c.CountryBanks || c.BankList || c.availableBanks || c.supportedBanks || c.Banks || c.bank || c.bank_list || c.Bank || []
+            )
+              .map((bank: any) => {
+                if (typeof bank === 'object' && !Array.isArray(bank) && bank !== null && ('code' in bank === false) && ('bankCode' in bank === false)) {
+                  return Object.values(bank)
+                    .map((b: any) => ({
+                      code: b?.code !== undefined ? String(b.code) : (b?.bankCode !== undefined ? String(b.bankCode) : (b?.Code !== undefined ? String(b.Code) : (b?.bank_code !== undefined ? String(b.bank_code) : ''))),
+                      name: b?.name ?? b?.bankName ?? b?.Name ?? b?.bank_name ?? '',
+                      type: b?.type ?? 'savings',
+                      accountLookupRequired:
+                        typeof b?.accountLookupRequired === 'boolean'
+                          ? b.accountLookupRequired
+                          : (typeof b?.requiresAccountLookup === 'boolean' ? b.requiresAccountLookup : true),
+                      country: countryCode,
+                    }))
+                    .filter((b: any) => b.code && b.name);
+                }
+                // Normal case
+                return {
+                  code: bank?.code !== undefined ? String(bank.code) : (bank?.bankCode !== undefined ? String(bank.bankCode) : (bank?.Code !== undefined ? String(bank.Code) : (bank?.bank_code !== undefined ? String(bank.bank_code) : ''))),
+                  name: bank?.name ?? bank?.bankName ?? bank?.Name ?? bank?.bank_name ?? '',
+                  type: bank?.type ?? 'savings',
+                  accountLookupRequired:
+                    typeof bank?.accountLookupRequired === 'boolean'
+                      ? bank.accountLookupRequired
+                      : (typeof bank?.requiresAccountLookup === 'boolean' ? bank.requiresAccountLookup : true),
+                  country: countryCode,
+                };
+              })
+              .flat()
+              .filter((b: any) => b.code && b.name)
+              .sort((a: any, b: any) => a.name.localeCompare(b.name))
+          );
+
+          // Fallback to receiveCurrencies-derived banks if selfBanks are empty
+          const fallbackBanks = selfBanks.length > 0
+            ? selfBanks
+            : (banksByCurrencyCode.get(code) || banksByCountryCode.get(countryCode) || []);
+
+          return {
+            ...c,
+            code,
+            countryCode,
+            symbol: c.symbol || '',
+            minimumAmount: c.minimumReceiveAmount || c.minimumAmount || 1000,
+            maximumAmount: c.maximumReceiveAmount || c.maximumAmount || 400000,
+            phoneCode: c.phoneCode || '+234',
+            countryBanks: fallbackBanks,
+          };
+        });
+        setCurrencies(mappedCurrencies);
+
+        // Rehydrate any persisted selectedCurrency from the mapped list so it includes normalized fields (e.g., countryBanks)
+        if (selectedCurrency) {
+          const refreshed = mappedCurrencies.find((c: any) => c.code === selectedCurrency.code || c.countryCode === selectedCurrency.countryCode);
+          if (refreshed) {
+            setStep1Data({ selectedCurrency: refreshed });
           }
+        } else if (!initialCurrency && mappedCurrencies.length > 0) {
+          setStep1Data({ selectedCurrency: mappedCurrencies[0] });
         }
       }
-      
-      let computedCrypto = '';
-      let exchangeLabel = '';
-      const decimals = selectedCryptoAsset.numberOfDecimalPlaces ?? 8;
 
-      const applyResponse = (resp: any) => {
-        if (!resp) return false;
-        const d = resp.data || resp;
-        if (!d) return false;
-        // Try multiple casings/field names
-        const sendAmount =
-          typeof d.sendAmount === 'number' ? d.sendAmount :
-          typeof d.SendAmount === 'number' ? d.SendAmount :
-          typeof d.cryptoAmount === 'number' ? d.cryptoAmount :
-          (typeof d.cryptoAmount === 'string' ? parseFloat(d.cryptoAmount) : NaN);
-
-        const receiveAmountRate =
-          typeof d.receiveAmount === 'number' ? d.receiveAmount :
-          typeof d.ReceiveAmount === 'number' ? d.ReceiveAmount :
-          (typeof d.exchangeRate === 'string' ? parseFloat(String(d.exchangeRate).replace(/[^0-9.]/g, '')) : (
-            typeof d.exchangeRate === 'number' ? d.exchangeRate : NaN
-          ));
-
-        const sendRateInfo = d.sendRateInfo || d.SendRateInfo || '';
-
-        if (typeof sendAmount === 'number' && !isNaN(sendAmount) && sendAmount > 0) {
-          computedCrypto = sendAmount.toFixed(decimals);
-        }
-
-        if (!computedCrypto && !isNaN(receiveAmountRate) && receiveAmountRate > 0) {
-          computedCrypto = (amount / receiveAmountRate).toFixed(decimals);
-        }
-
-        if (!computedCrypto && typeof sendRateInfo === 'string' && sendRateInfo.length > 0) {
-          const match = sendRateInfo.match(/=\s*([^\s]+)/);
-          const rateStr = match ? match[1] : '';
-          const numeric = parseFloat(rateStr.replace(/[^0-9.]/g, ''));
-          if (!isNaN(numeric) && numeric > 0) {
-            computedCrypto = (amount / numeric).toFixed(decimals);
-            exchangeLabel = rateStr;
-          }
-        }
-
-        const currencySymbol = d.receiveCurrencySymbol || d.ReceiveCurrencySymbol || selectedCurrency.symbol || '';
-        if (!exchangeLabel && !isNaN(receiveAmountRate) && receiveAmountRate > 0) {
-          exchangeLabel = `${currencySymbol}${receiveAmountRate.toLocaleString()}`;
-        }
-        return !!computedCrypto;
-      };
-
-      let applied = applyResponse(response);
-
-      // If still not computed, fallback to calculateCryptoAmount API
-      if (!applied) {
-        const cryptoAssetCode = selectedNetwork ? `${selectedCryptoAsset.code}-${selectedNetwork.code}` : selectedCryptoAsset.code;
-        try {
-          console.debug("Falling back to /api/crypto/calculateCryptoAmount with:", {
-            fiatAmount: amount,
-            fiatCurrency: selectedCurrency.code,
-            cryptoAsset: cryptoAssetCode,
+      if (cryptoInfoRes.success) {
+        setCryptoAssets(cryptoInfoRes.data.cryptoAssets || []);
+        
+        // Set default crypto asset
+        if (cryptoInfoRes.data.cryptoAssets && cryptoInfoRes.data.cryptoAssets.length > 0) {
+          const defaultAsset = cryptoInfoRes.data.cryptoAssets.find(
+            (asset: any) => asset.code === "receive_bitcoin_ln_invoince"
+          ) || cryptoInfoRes.data.cryptoAssets[0];
+          
+          setStep1Data({ 
+            selectedCryptoAsset: defaultAsset,
+            selectedNetwork: defaultAsset.networks?.[0] || null 
           });
-          const fallbackResponse = await calculateCryptoAmount(amount, selectedCurrency.code, cryptoAssetCode);
-          applied = applyResponse(fallbackResponse);
-        } catch (e) {
-          console.warn("Fallback /calculateCryptoAmount failed:", e);
         }
-      }
-
-      if (computedCrypto) setCryptoAmount(computedCrypto);
-      if (exchangeLabel) setExchangeRate(exchangeLabel);
-
-      if (!computedCrypto) {
-        console.warn("Could not compute crypto amount from API responses.", { response });
       }
     } catch (error) {
-      console.error("Error calculating rate:", error);
+      console.error('Failed to load initial data:', error);
+      setError("Failed to load required data. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleProceedToStep2 = () => {
+    setCurrentStep(2);
+  };
+
+  const handleProceedToStep3 = () => {
+    setCurrentStep(3);
+  };
+
+  const handleBackToStep1 = () => {
+    setCurrentStep(1);
+  };
+
+  const handleBackToStep2 = () => {
+    setCurrentStep(2);
+  };
+
+  const handleSubmitTransaction = async () => {
+    if (!selectedCryptoAsset || !selectedNetwork || !selectedCurrency || !selectedBank) {
+      console.error('Missing required fields for transaction');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Resolve the network/asset option code expected by backend
+      const optionCode = resolveOptionCode(selectedCryptoAsset, selectedNetwork);
+      if (!optionCode) {
+        console.error('No valid option code could be resolved');
+        return;
+      }
+
+      const payload = {
+        cryptoAssetOptionCode: optionCode,
+        assetTypeNetwork: selectedNetwork.code,
+        receiveCurrency: selectedCurrency.code,
+        sendAmount: parseFloat(cryptoAmount),
+        receiveAmount: parseFloat(receiveAmount),
+        bankCode: selectedBank.code,
+        accountNumber,
+        accountName,
+        country: selectedCurrency.countryCode,
+        senderFirstName: firstName,
+        senderLastName: lastName,
+        senderEmail: email,
+        senderPhoneNumberCode: selectedCurrency.phoneCode || '+234',
+        senderPhoneNumber: phoneNumber,
+        createCashwyreAccount,
+        createCashwyreAccountUserName: createCashwyreAccount ? userName : '',
+        createCashwyreAccountPassword: createCashwyreAccount ? password : '',
+        sponsor: '', // Add if you have sponsor logic
+      };
+
+      console.log('Submitting transaction with payload:', payload);
+
+      const response = await crypto4CashApi.crypto4CashSummary(payload);
+      
+      if (response.success) {
+        setTransactionSummary(response.data);
+        setCurrentStep(4);
+        
+        // Set countdown timer
+        const minutes = response.data.txnExpiryInMinutes || 5;
+        setTimeLeft(minutes * 60);
+      } else {
+        console.error('Transaction failed:', response.message);
+        setError(response.message || 'Failed to create transaction');
+      }
+    } catch (error: any) {
+      console.error('Failed to create transaction:', error);
+      setError(error.message || 'An error occurred while creating the transaction');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleProceed = () => {
-    if (!selectedCryptoAsset || !selectedCurrency || !receiveAmount || !cryptoAmount) {
-      return;
+  const handleConfirmPayment = async () => {
+    if (!transactionSummary) return;
+
+    setLoading(true);
+    try {
+      const response = await crypto4CashApi.confirmPayment({
+        code: transactionSummary.reference,
+      });
+
+      if (response.success) {
+        // Navigate to status page
+        window.location.href = `/crypto4cash-status?transactioncode=${transactionSummary.reference}`;
+      } else {
+        setError(response.message || 'Failed to confirm payment');
+      }
+    } catch (error: any) {
+      console.error('Failed to confirm payment:', error);
+      setError(error.message || 'An error occurred while confirming payment');
+    } finally {
+      setLoading(false);
     }
-    
-    onProceed({
-      cryptoAsset: selectedCryptoAsset,
-      network: selectedNetwork,
-      currency: selectedCurrency,
-      receiveAmount,
-      cryptoAmount,
-      exchangeRate
-    });
   };
 
-  const handleAssetSelect = (asset: CryptoAsset) => {
-    setSelectedCryptoAsset(asset);
-    if (asset.networks && asset.networks.length > 0) {
-      setSelectedNetwork(asset.networks[0]);
+  const handleResetFlow = () => {
+    resetForm();
+    setCurrentStep(1);
+    setError(null);
+  };
+
+  const renderStep = () => {
+    if (isLoading) {
+      return (
+        <div className="bg-gray-800 rounded-2xl p-8 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
+          <p className="mt-4 text-gray-300">Loading...</p>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="bg-gray-800 rounded-2xl p-8 text-center">
+          <div className="text-red-400 mb-4">
+            <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 className="text-xl font-bold text-white mb-2">Error</h3>
+          <p className="text-gray-300 mb-6">{error}</p>
+          <button
+            onClick={handleResetFlow}
+            className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-6 rounded-lg"
+          >
+            Try Again
+          </button>
+        </div>
+      );
+    }
+
+    switch (currentStep) {
+      case 1:
+        return (
+          <Step1AssetSelection
+            currencies={currencies}
+            cryptoAssets={cryptoAssets}
+            onProceed={handleProceedToStep2}
+          />
+        );
+      case 2:
+        return (
+          <Step2BankAccount
+            onBack={handleBackToStep1}
+            onProceed={handleProceedToStep3}
+            banks={selectedCurrency?.countryBanks || []}
+          />
+        );
+      case 3:
+        return (
+          <Step3ContactInfo
+            onBack={handleBackToStep2}
+            onSubmit={handleSubmitTransaction}
+          />
+        );
+      case 4:
+        return (
+          <Step4Summary
+            onBack={() => setCurrentStep(3)}
+            onConfirmPayment={handleConfirmPayment}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case 1:
+        return "Select Assets & Amount";
+      case 2:
+        return "Bank Account Details";
+      case 3:
+        return "Contact Information";
+      case 4:
+        return "Payment Summary";
+      default:
+        return "Crypto4Cash";
     }
   };
 
   return (
-    <div className="bg-[#1a1a1a] text-white p-8 rounded-2xl shadow-2xl w-full max-w-lg mx-auto">
-      {/* Top actions: Back and Close */}
-      <div className="flex items-center justify-between mb-4">
-        <button
-          onClick={onClose}
-          className="text-sm px-3 py-1 rounded-md border border-gray-700 bg-[#2a2a2a] hover:bg-[#333]"
-        >
-          ← Back
-        </button>
-        <button
-          onClick={onClose}
-          className="text-sm px-3 py-1 rounded-md border border-gray-700 bg-[#2a2a2a] hover:bg-[#333]"
-        >
-          Close ×
-        </button>
-      </div>
-      {/* Header */}
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2">Crypto4Cash</h2>
-        <p className="text-gray-400">Spend your Crypto instantly without selling</p>
-      </div>
-
-      {/* Form */}
-      <div className="space-y-6">
-        {/* Crypto Asset and Chain in two columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Crypto Asset Selection */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Crypto Asset</label>
-            <div className="relative">
-              <select 
-                className="w-full bg-[#2a2a2a] border border-gray-700 rounded-md py-3 px-4 appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-                value={selectedCryptoAsset?.code || ''}
-                onChange={(e) => {
-                  const selected = cryptoAssets.find(asset => asset.code === e.target.value);
-                  if (selected) {
-                    setSelectedCryptoAsset(selected);
-                    if (selected.networks.length > 0) {
-                      setSelectedNetwork(selected.networks[0]);
-                    } else {
-                      setSelectedNetwork(null);
-                    }
-                  }
-                }}
-              >
-                {cryptoAssets.map((asset) => (
-                  <option key={asset.code} value={asset.code}>
-                    {asset.name}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold mb-2">Crypto4Cash</h1>
+            <p className="text-gray-400">
+              {currentStep === 4 
+                ? "Copy the address or scan the QR code to complete your transaction"
+                : "Spend your Crypto instantly without selling"
+              }
+            </p>
           </div>
 
-          {/* Chain/Network Selection */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Chain</label>
-            <div className="relative">
-              <select 
-                className="w-full bg-[#2a2a2a] border border-gray-700 rounded-md py-3 px-4 appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-                value={selectedNetwork?.code || ''}
-                onChange={(e) => {
-                  if (selectedCryptoAsset) {
-                    const selected = selectedCryptoAsset.networks.find(network => network.code === e.target.value);
-                    if (selected) {
-                      setSelectedNetwork(selected);
-                    }
-                  }
-                }}
-              >
-                {(selectedCryptoAsset?.networks || []).map((network) => (
-                  <option key={network.code} value={network.code}>
-                    {network.name}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Currency Selection spans full width */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Receive Currency</label>
-          <div className="relative">
-            <select 
-              className="w-full bg-[#2a2a2a] border border-gray-700 rounded-md py-3 px-4 appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500"
-              value={selectedCurrency?.code || ''}
-              onChange={(e) => {
-                const selected = currencies.find(currency => currency.code === e.target.value);
-                if (selected) {
-                  setSelectedCurrency(selected);
-                }
-              }}
-            >
-              {currencies.map((currency) => (
-                <option key={currency.code} value={currency.code}>
-                  {currency.name} ({currency.code})
-                </option>
+          {/* Progress Steps */}
+          <div className="flex justify-center mb-8">
+            <div className="flex items-center space-x-4">
+              {[1, 2, 3, 4].map((step) => (
+                <div key={step} className="flex items-center">
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
+                      currentStep >= step
+                        ? 'bg-orange-500 border-orange-500 text-white'
+                        : 'bg-transparent border-gray-600 text-gray-400'
+                    } transition-all duration-300`}
+                  >
+                    {step}
+                  </div>
+                  {step < 4 && (
+                    <div
+                      className={`w-16 h-1 ${
+                        currentStep > step ? 'bg-orange-500' : 'bg-gray-700'
+                      } transition-all duration-300`}
+                    />
+                  )}
+                </div>
               ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
-              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-              </svg>
             </div>
           </div>
-        </div>
 
-        {/* Amount Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Receive Amount */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Receive Amount ({selectedCurrency?.code})
-            </label>
-            <input
-              type="text"
-              className="w-full bg-[#2a2a2a] border border-gray-700 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              value={receiveAmount}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (/^(\d*\.?\d*)$/.test(value) || value === '') {
-                  setReceiveAmount(value);
-                }
-              }}
-              placeholder={`Enter amount`}
-            />
+          {/* Step Title */}
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-semibold text-orange-500">
+              {getStepTitle()}
+            </h2>
           </div>
 
-          {/* Crypto Amount */}
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Crypto Amount ({selectedCryptoAsset?.name || 'BTC'})
-            </label>
-            <input
-              type="text"
-              className="w-full bg-[#2a2a2a] border border-gray-700 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              value={cryptoAmount}
-              readOnly
-              placeholder="Calculated amount"
-            />
-          </div>
-        </div>
+          {/* Step Content */}
+          {renderStep()}
 
-        {/* Note (min/max) */}
-        {selectedCryptoAsset && (
-          <div className="text-amber-500 text-sm">
-            <span className="font-medium">Note:</span> The min. and max. you can send is {selectedCryptoAsset.name}
-            ({selectedCryptoAsset.minimumSendAmount.toFixed(8)} - {selectedCryptoAsset.maximumSendAmount.toFixed(8)}).
-          </div>
-        )}
-
-        {/* Exchange Rate green pill */}
-        {exchangeRate && (
-          <div className="flex justify-center">
-            <span className="inline-flex items-center px-4 py-1 rounded-full bg-green-700 text-green-100 text-sm font-semibold">
-              1 {selectedCryptoAsset?.name || 'BTC'} = {exchangeRate}
-            </span>
-          </div>
-        )}
-
-        {/* NB */}
-        <div className="text-center text-gray-400 text-xs">
-          NB: Delays in completing the transaction may affect the applicable rates.
-        </div>
-
-        {/* Transaction Summary */}
-        <div
-          style={{
-            padding: '16px',
-            borderRadius: '12px',
-            background: '#2a2a2a',
-            border: '1px solid #374151',
-          }}
-        >
-          <h3 style={{ color: '#9ca3af', fontSize: '14px', fontWeight: '500', marginBottom: '16px' }}>
-            Transaction Summary
-          </h3>
-          <div className="space-y-3">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ color: '#9ca3af' }}>You Pay ({selectedCurrency?.code})</span>
-              <span style={{ color: 'white', fontWeight: '600', fontSize: '16px' }}>
-                {selectedCurrency?.symbol}{parseFloat(receiveAmount || '0').toLocaleString()}
-              </span>
+          {/* Debug info (remove in production) */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-8 p-4 bg-gray-800 rounded-lg text-xs">
+              <h4 className="font-semibold mb-2">Debug Info:</h4>
+              <p>Current Step: {currentStep}</p>
+              <p>Selected Crypto: {selectedCryptoAsset?.name}</p>
+              <p>Selected Network: {selectedNetwork?.name}</p>
+              <p>Selected Currency: {selectedCurrency?.name}</p>
+              <p>Receive Amount: {receiveAmount}</p>
+              <p>Crypto Amount: {cryptoAmount}</p>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ color: '#9ca3af' }}>You Get ({selectedCryptoAsset?.name || 'BTC'})</span>
-              <span style={{ color: 'white', fontWeight: '600', fontSize: '16px' }}>
-                {cryptoAmount || '0.00000000'} {selectedCryptoAsset?.name || 'BTC'}
-              </span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ color: '#9ca3af' }}>Exchange Rate</span>
-              <span style={{ color: 'white', fontWeight: '600', fontSize: '16px' }}>
-                {exchangeRate || 'Not calculated'}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex space-x-4">
-          <button
-            onClick={onClose}
-            style={{
-              width: '30%',
-              background: '#2a2a2a',
-              color: 'white',
-              padding: '16px',
-              borderRadius: '12px',
-              border: '1px solid #374151',
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: 'pointer',
-            }}
-          >
-            Back
-          </button>
-
-          <button
-            onClick={handleProceed}
-            disabled={!selectedCryptoAsset || ((selectedCryptoAsset.networks && selectedCryptoAsset.networks.length > 0) && !selectedNetwork) || loading}
-            style={{
-              width: '70%',
-              background: (!selectedCryptoAsset || ((selectedCryptoAsset.networks && selectedCryptoAsset.networks.length > 0) && !selectedNetwork) || loading)
-                ? '#6b7280'
-                : 'linear-gradient(135deg, #FF6B35 0%, #FFA726 100%)',
-              color: 'white',
-              padding: '16px',
-              borderRadius: '12px',
-              border: 'none',
-              fontSize: '16px',
-              fontWeight: '600',
-              cursor: (!selectedCryptoAsset || ((selectedCryptoAsset.networks && selectedCryptoAsset.networks.length > 0) && !selectedNetwork) || loading)
-                ? 'not-allowed'
-                : 'pointer',
-              transition: 'all 0.2s ease',
-              boxShadow: '0 4px 12px rgba(255, 107, 53, 0.3)',
-            }}
-          >
-            {loading ? 'Calculating...' : 'Proceed'}
-          </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-// Helper to resolve the correct SendCryptoAssetOptionCode from asset/network
-function resolveOptionCode(asset: CryptoAsset | null, network: Network | null): string | null {
+// Helper function to resolve the correct option code from asset/network
+function resolveOptionCode(asset: any, network: any): string | null {
   const candidates = [
     network?.sendCryptoAssetOptionCode,
     network?.SendCryptoAssetOptionCode,
@@ -529,3 +516,5 @@ function resolveOptionCode(asset: CryptoAsset | null, network: Network | null): 
   const found = candidates.find((c) => typeof c === "string" && c.length > 0);
   return found || null;
 }
+
+// Removed duplicate useEffect declared outside of component to fix TypeScript build error
